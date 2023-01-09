@@ -1,0 +1,12 @@
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Release\Linkage.csproj.AssemblyReference.cache
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Release\Linkage.csproj.SuggestedBindingRedirects.cache
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Release\Linkage.Form1.resources
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Release\Linkage.Form2.resources
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Release\Linkage.Properties.Resources.resources
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Release\Linkage.csproj.GenerateResource.cache
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Release\Linkage.csproj.CoreCompileInputs.cache
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\bin\Release\Linkage.exe.config
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\bin\Release\Linkage.exe
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\bin\Release\Linkage.pdb
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Release\Linkage.exe
+C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Release\Linkage.pdb

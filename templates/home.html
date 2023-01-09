@@ -1,0 +1,27 @@
+<html>
+    <head></head>
+    <body>
+        <form method="POST" action="/cheat/{{username}}/">
+			Hello, {{username}}
+			<p><p/>
+			Autoclicker <input type="checkbox" name="autoclicker" value="True" />
+            <input type="range" min="1" max="20" name="name_of_slider" oninput="this.nextElementSibling.value = this.value"  />
+			<output>10</output>
+			<select name ="letter" id="letter"></select>
+			<p><p/>
+            <input type="Submit" value="Save" />
+        </form>
+		<script>
+	const selectHtmlElement = document.querySelector("#letter");
+
+	const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	for(let letter of alphabet ){
+	let optionHtmlElement = document.createElement("option");
+	optionHtmlElement.value = letter.toLowerCase();
+	optionHtmlElement.textContent = letter;
+	selectHtmlElement.appendChild(optionHtmlElement);
+	}
+	</script>
+    </body>
+</html>

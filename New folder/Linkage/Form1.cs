@@ -36,38 +36,15 @@ namespace Linkage
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            string logincombo = textBox1.Text + ":" + textBox2.Text;
             System.Net.WebClient wc = new System.Net.WebClient();
-            string webData = wc.DownloadString(yoursite + "db");
-            string[] baller = {};
-            foreach (string balls in Regex.Split(webData, Environment.NewLine)) 
-            {
-                foreach (string yes in balls.Split(char.Parse(":")))
+
+            string webData2 = wc.DownloadString(yoursite + "db/" + textBox1.Text + "/" + textBox2.Text);
+            if (webData2.Contains("1"))
                 {
-                    if (yes.Contains(":")){ yes.Replace(":", ""); }
-                    baller.Append(decode(yes));
-                    if (decode(balls).Contains(logincombo))
-                    {
-                        Form2 fm2 = new Form2(textBox1.Text);
-                        fm2.Show();
-                        this.Hide();
-                    }
-                    else
-                    {
-                        label1.Text = "Wrong Try again.";
-                    }
-                }
-            }
-            string loginf = baller[0] + ":" + baller[1];
-            if (loginf.Contains(logincombo))
-            {
                 Form2 fm2 = new Form2(textBox1.Text);
                 fm2.Show();
                 this.Hide();
-            }
-            else
-            {
-                label1.Text = "Wrong Try again.";
+
             }
         }
 

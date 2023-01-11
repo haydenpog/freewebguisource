@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, make_response
-from pCrypt import testdecode
+from pCrypt import testdecode, test
 import sqlite3
 
 
@@ -56,12 +56,25 @@ def admin():
         return
 
 
-@app.route('/db')
-def db():
-    f = open('account.db', 'r')
-    read = f.read()
-    return read
-
+@app.route('/db/<string:authuser>/<string:authpass>')
+def db(authuser,authpass):
+    if request.method == 'GET':
+        conn = sqlite3.connect('database.db')
+        statement = "SELECT username, password FROM cheat"
+        cur = conn.cursor()
+        cur.execute(statement)
+        logins = cur.fetchall()
+        conn.close()
+        for item in logins:
+            if testdecode(item[0]) == authuser:
+                print("username correct "+ authuser)
+                if testdecode(item[1]) == authpass:
+                    print("user and pass correct, entering.")
+                    return '1'
+                else:
+                    return '0'
+            else:
+                return "0"
 
 @app.route('/getcfg/<string:User>', methods=['GET','POST'])
 def getconfig(User):
@@ -132,6 +145,7 @@ def cheat(User):
         reach = str(request.form.get("reach"))
         keybind = str(request.form.get("letter"))
         f = open(User + ".ini", "w")
+        print(acon + acCPS + keybind + "|" + reach + rvalue)
         f.write(acon + acCPS + keybind + "|" + reach + rvalue)
         f.close()
         return render_template('home.html', username= User)

@@ -49,4 +49,4 @@ def pdecode(text):
     return text
 
 if __name__ == "__main__":
-    print(testdecode(test("bals")))
+    print(testdecode("YWRtaW5CUg=="))

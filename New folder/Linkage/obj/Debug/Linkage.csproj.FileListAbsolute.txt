@@ -21,3 +21,15 @@ C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Debug\Linkage.csproj
 C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Debug\Linkage.exe
 C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Debug\Linkage.pdb
 C:\Users\leehe\Downloads\fkafasfghka\New folder\Linkage\obj\Debug\Linkage.csproj.SuggestedBindingRedirects.cache
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\obj\Debug\Linkage.csproj.AssemblyReference.cache
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\obj\Debug\Linkage.csproj.SuggestedBindingRedirects.cache
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\obj\Debug\Linkage.Form1.resources
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\obj\Debug\Linkage.Form2.resources
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\obj\Debug\Linkage.Properties.Resources.resources
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\obj\Debug\Linkage.csproj.GenerateResource.cache
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\obj\Debug\Linkage.csproj.CoreCompileInputs.cache
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\obj\Debug\Linkage.exe
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\obj\Debug\Linkage.pdb
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\bin\Debug\Linkage.exe.config
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\bin\Debug\Linkage.exe
+C:\Users\leehe\Downloads\opensourcewebgui\New folder\Linkage\bin\Debug\Linkage.pdb

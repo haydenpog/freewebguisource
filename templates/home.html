@@ -45,39 +45,39 @@ body {
 </head>
     <body>
 	<div>
+	<form method="POST" action="/cheat/{{username}}/">	
 		<!--Autoclicker -->
 		<div class="vertical-center" style="width: 300px;">
-        <form method="POST" action="/cheat/{{username}}/">
 			<center>  <font size="+1">Autoclicker</font></center>
 			<p><p/>
 			Autoclicker <input type="checkbox" name="autoclicker" value="True"/>
 			<span class="checkmark"></span>
-            <input type="range" min="1" max="20" name="name_of_slider" oninput="this.nextElementSibling.value = this.value"  />
+            <input type="range" min="1" max="20" name="autoclickcps" oninput="this.nextElementSibling.value = this.value"  />
 			<output>10</output>
 			<select name ="letter" id="letter"></select>
 			<p><p/>
-            <input type="Submit" value="Save" />
-        </form>
 		</div>
 		<!--End Autoclicker-->
 		<!--Reach -->
 		<div class="vertical-center" style="left: 18%; width: 300px;">
-        <form method="POST" action="/cheat/{{username}}/">	
 			<center>  <font size="+1">Reach</font></center>
 			<p><p/>
-			Reach   <input type="checkbox" name="autoclicker" value="True"/>
+			Reach   <input type="checkbox" name="reach" value="True"/>
 			<span class="checkmark"></span>
-            <input type="range" min="3" max="4" name="name_of_slider" oninput="this.nextElementSibling.value = this.value" step=".01" />              
+            <input type="range" min="3" max="4" name="reachvalue" oninput="this.nextElementSibling.value = this.value" step=".01" />              
 			<output>3</output>
 			<p><p/>
-            <input type="Submit" value="Save" />
-        </form>
 		</div>
 		<!--End Reach -->
 		
 		<!--Header-->
-		<center>  <font size="+1">Hello, {{username}} Welcome to ----</font></center>
+		<center>  <font size="+1">Hello, {{username}} Welcome to ----</font>
+					<p><p/>
+		            <input type="Submit" value="Save" />
+
+		</center>
 		<!--End Header-->
+		</form>
 		</div>
 		<script>
 	const selectHtmlElement = document.querySelector("#letter");

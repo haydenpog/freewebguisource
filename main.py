@@ -1,17 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, request, make_response
-from pCrypt import pdecode, pencode
+from pCrypt import testdecode
 import sqlite3
 
-conn = sqlite3.connect('database.db')
-print("Opened database successfully")
 
-statement = "SELECT username, password FROM cheat"
-cur = conn.cursor()
-cur.execute(statement)
-logins = cur.fetchall()
-
-
-conn.close()
 
 
 app = Flask(__name__)
@@ -21,20 +12,26 @@ username = ""
 If you are seeing this you probably downloaded this off github. This webgui source has very bad security
 and should have the auth recoded. DO NOT USE SELL THIS YOU WILL GET CRACKED IN HALF A SECOND!
 """
-p = open("account.db","r")
-print(p.read())
-p.close
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
+    conn = sqlite3.connect('database.db')
+    print("Opened database successfully")
+
+    statement = "SELECT username, password FROM cheat"
+    cur = conn.cursor()
+    cur.execute(statement)
+    logins = cur.fetchall()
+
+    conn.close()
     if request.method == 'POST':
         for item in logins:
-            if request.form['username'] != pdecode(item[0]) or request.form['password'] != pdecode(item[1]):
+            if request.form['username'] != testdecode(item[0]) or request.form['password'] != testdecode(item[1]):
                 error = 'Invalid Credentials. Please try again.'
                 pass
-            if request.form['username'] == pdecode(item[0]) and request.form['password'] == pdecode(item[1]):
+            if request.form['username'] == testdecode(item[0]) and request.form['password'] == testdecode(item[1]):
                 return cheat(request.form["username"])
     return render_template('index.html', error=error)
 
@@ -124,29 +121,18 @@ def keepsign(signon):
 def home():
     return redirect(url_for("login"))
 
-@app.route("/testy", methods=['POST','GET'])
-def loginold():
-    logindict()
-    error = None
-    if request.method == 'POST':
-        for item in logindict():
-            item = item.split(":")
-            if request.form['username'] != item[0] or request.form['password'] != item[1]:
-                error = 'Invalid Credentials. Please try again.'
-                pass
-            if request.form['username'] == item[0] and request.form['password'] == item[1]:
-                return cheat(request.form["username"])
-    return render_template('login.html', error=error)
 
 
 @app.route('/cheat/<string:User>/', methods=['POST'])
 def cheat(User):
     if request.method == 'POST':
-        acCPS = str(request.form.get("name_of_slider"))
+        acCPS = str(request.form.get("autoclickcps"))
         acon = str(request.form.get("autoclicker"))
+        rvalue = str(request.form.get("reachvalue"))
+        reach = str(request.form.get("reach"))
         keybind = str(request.form.get("letter"))
         f = open(User + ".ini", "w")
-        f.write(acon + acCPS + keybind)
+        f.write(acon + acCPS + keybind + "|" + reach + rvalue)
         f.close()
         return render_template('home.html', username= User)
 

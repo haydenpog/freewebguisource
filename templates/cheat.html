@@ -1,6 +1,9 @@
 <html>
-    <head></head>
+    <head>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+	</head>
     <body>
+	<div class="container">
         <form method="POST" action="">
 			Hello, {{username}}
 			<p><p/>
@@ -11,24 +14,8 @@
 			<p><p/>
             <input type="Submit" value="Save" />
         </form>
-		{% if admin %}
-		  <body>
-    <div class="container">
-      <h1>Admin</h1>
-      <br>
-      <form action="" method="post">
-        <input type="text" placeholder="Username" name="username" value="{{
-          request.form.username }}">
-         <input type="password" placeholder="Password" name="password" value="{{
-          request.form.password }}">
-        <input class="btn btn-default" type="submit" value="Add">
-      </form>
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}
-      {% endif %}
-    </div>
-  </body>
-		{% endif %}
+	</div>
+	</body>
 		<script>
 	const selectHtmlElement = document.querySelector("#letter");
 

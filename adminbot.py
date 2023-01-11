@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from pCrypt import pencode
+from pCrypt import test, testdecode
 import sqlite3
 
 
@@ -33,9 +33,9 @@ async def createaccount(ctx, username: str, password: str):
 
     embed = discord.Embed(
         title="Account Creator",
-        color=discord.Colour.red(),  # Pycord provides a class with default colors you can choose from
+        color=discord.Colour.green(),  # Pycord provides a class with default colors you can choose from
     )
-    statement = "INSERT INTO cheat VALUES ('%s','%s','%s');" % (pencode(username), pencode(password),str(ctx.author.id))
+    statement = "INSERT INTO cheat VALUES ('%s','%s','%s');" % (test(username), test(password),str(ctx.author.id))
     print(statement)
     cur = conn.cursor()
     cur.execute(statement)

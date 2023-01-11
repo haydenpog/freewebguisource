@@ -1,16 +1,84 @@
+<style>
+div {
+  height: 200px;
+  margin: 20px;
+  border: 5px solid;
+  background-color: #2c2c44;
+}
+
+	
+body {
+  margin: 0;
+  font-family: "Arial";
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #ffffff;
+  text-align: left;
+  background-color: #1e1e2f;
+}
+
+.container {
+  height: 200px;
+  position: relative;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 40%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.horizontal-center {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+</style>
+
 <html>
-    <head></head>
+    <head>
+</head>
     <body>
+	<div>
+		<!--Autoclicker -->
+		<div class="vertical-center" style="width: 300px;">
         <form method="POST" action="/cheat/{{username}}/">
-			Hello, {{username}}
+			<center>  <font size="+1">Autoclicker</font></center>
 			<p><p/>
-			Autoclicker <input type="checkbox" name="autoclicker" value="True" />
+			Autoclicker <input type="checkbox" name="autoclicker" value="True"/>
+			<span class="checkmark"></span>
             <input type="range" min="1" max="20" name="name_of_slider" oninput="this.nextElementSibling.value = this.value"  />
 			<output>10</output>
 			<select name ="letter" id="letter"></select>
 			<p><p/>
             <input type="Submit" value="Save" />
         </form>
+		</div>
+		<!--End Autoclicker-->
+		<!--Reach -->
+		<div class="vertical-center" style="left: 18%; width: 300px;">
+        <form method="POST" action="/cheat/{{username}}/">	
+			<center>  <font size="+1">Reach</font></center>
+			<p><p/>
+			Reach   <input type="checkbox" name="autoclicker" value="True"/>
+			<span class="checkmark"></span>
+            <input type="range" min="3" max="4" name="name_of_slider" oninput="this.nextElementSibling.value = this.value" step=".01" />              
+			<output>3</output>
+			<p><p/>
+            <input type="Submit" value="Save" />
+        </form>
+		</div>
+		<!--End Reach -->
+		
+		<!--Header-->
+		<center>  <font size="+1">Hello, {{username}} Welcome to ----</font></center>
+		<!--End Header-->
+		</div>
 		<script>
 	const selectHtmlElement = document.querySelector("#letter");
 

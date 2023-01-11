@@ -4,6 +4,23 @@ import random
 
 
 
+def test(text):
+    ran = ''.join(random.choices(string.ascii_uppercase + string.digits, k=2))
+    ran = [*ran]
+    if ran[0] in text:
+        text.replace(ran[0], ran[1])
+        text = text + ran[0] + ran[1]
+    else:
+        text = text + ran[0] + ran[1]
+    text = base64.b64encode(text.encode("ASCII")).decode("ASCII")
+    print(text)
+    return(text)
+def testdecode(text):
+    text = base64.b64decode(text.encode("ASCII")).decode("ASCII")
+    text = text.replace(text[-1],text[-2])
+    text = text.replace(text[-2]+text[-1],"")
+    return(text)
+
 def pencode(text):
     ran = ''.join(random.choices(string.ascii_uppercase + string.digits, k=2))
     ran = [*ran]
@@ -32,10 +49,4 @@ def pdecode(text):
     return text
 
 if __name__ == "__main__":
-    print(pdecode(r'6Z-^RAQ3V+=]fH&'))
-    #print(pdecode(pencode("admin:admin\nhayden:pog")))
-    f = open("account.db","w")
-    f.write(pencode("admin:admin\nhayden:pog"))
-    #print(f.read())
-    #print(pdecode(f.read()))
-    f.close()
+    print(testdecode(test("bals")))

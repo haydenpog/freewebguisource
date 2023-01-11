@@ -104,6 +104,44 @@ async def trolluser(ctx, username: str):
         await ctx.respond(embed=embed)
         return
 
+@commands.has_role("Admin")
+@bot.slash_command(name="banaccount")
+async def banaccount(ctx, user: discord.User):
+    # for read
+    conn = sqlite3.connect("database.db")
+    statement = "SELECT username, id FROM cheat"
+    cur = conn.cursor()
+    cur.execute(statement)
+    logins = cur.fetchall()
+    conn.close()
+    # For delete
+    conn2 = sqlite3.connect("database.db")
+    cur2 = conn2.cursor()
+
+    # user.id()
+    for item in logins:
+        if str(user.id) in item:
+            print(user.id)
+            cur2.execute("DELETE FROM cheat WHERE id='%s'" % user.id)
+            cur2.fetchall()
+            conn2.close()
+            embed = discord.Embed(
+                title="Account Deleter",
+                color=discord.Colour.green(),
+                description="User has been found! Their username is: " + testdecode(item[0]) + ". Done Deleting!"
+            )
+            await ctx.respond(embed=embed)
+            return
+    embed = discord.Embed(
+        title="Account Deleter",
+        color=discord.Colour.red(),
+        description="User not found."
+    )
+    await ctx.respond(embed=embed)
+    print(logins)
+    return
+
+
 print("running")
 bot.run(token)
 

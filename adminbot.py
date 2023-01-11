@@ -47,19 +47,62 @@ async def createaccount(ctx, username: str, password: str):
     conn.close()
     await ctx.respond(embed=embed)  # Send the embed with some text
 
-@bot.slash_command(name="checkid") #Add the guild ids in which the slash command will appear. If it should be in all, remove the argument, but note that it will take some time (up to an hour) to register the command if it's for all guilds.
-async def checkifused(ctx):
+
+@bot.slash_command(name="checkuserid") #Add the guild ids in which the slash command will appear. If it should be in all, remove the argument, but note that it will take some time (up to an hour) to register the command if it's for all guilds.
+async def checkusersid(ctx,user: discord.User):
     conn = sqlite3.connect("database.db")
-    statement = "SELECT id FROM cheat"
+    statement = "SELECT username, id FROM cheat"
     cur = conn.cursor()
     cur.execute(statement)
     logins = cur.fetchall()
-    print(logins)
+    #user.id()
     for item in logins:
-        for item2 in item:
-            if str(ctx.author.id) == item2:
-                print("already a user")
+        if str(user.id) in item:
+            embed = discord.Embed(
+                title="Account Checker",
+                color=discord.Colour.green(),
+                description="User has been found! Their username is: " + testdecode(item[0])
+            )
+            await ctx.respond(embed=embed)
+            return
+    embed = discord.Embed(
+        title="Account Checker",
+        color=discord.Colour.red(),
+        description="User has not been found."
+    )
+    await ctx.respond(embed=embed)
+    return
+    print(logins)
     conn.close()
+
+@commands.has_role("Admin")
+@bot.slash_command(name="trolluser")
+async def trolluser(ctx, username: str):
+    c = open(username + ".ini", "r")
+    cread = c.read()
+    c.close()
+    if 'True' in cread:
+        f = open(username+".ini", 'w')
+        f.write(cread.replace("True","None"))
+        f.close()
+        embed = discord.Embed(
+            title="Account Checker",
+            color=discord.Colour.green(),
+            description="I have swapped the users settings to False :troll:"
+        )
+        await ctx.respond(embed=embed)
+        return
+    else:
+        f = open(username + ".ini", 'w')
+        f.write(cread.replace("None", "True"))
+        f.close()
+        embed = discord.Embed(
+            title="Account Checker",
+            color=discord.Colour.green(),
+            description="I have swapped the users settings to True :troll:"
+        )
+        await ctx.respond(embed=embed)
+        return
 
 print("running")
 bot.run(token)

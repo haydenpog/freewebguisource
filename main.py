@@ -83,12 +83,7 @@ def getconfig(User):
         op = f.read()
         f.close()
         return op
-    if request.method == 'POST':
-        c = open(User + ".ini", "r")
-        if "True" in c.read():
-            c.write(c.read().replace("True","None"))
-        elif "None" in c.read():
-            c.write(c.read().replace("None","True"))
+
 
 @app.route('/set/<string:User>', methods=['POST'])
 def set(User):
@@ -102,17 +97,18 @@ def set(User):
                 c = open(User + ".ini", "r")
                 cread = c.read()
                 c.close()
+                autoclickercfg = cread.split("|")[0]
                 f = open(User + ".ini", "w")
-                f.write(cread.replace("None","True"))
+                f.write(autoclickercfg.replace("None","True")+"|"+cread.split("|")[1])
                 f.close()
                 return "Done"
             elif "None" in data:
                 c = open(User + ".ini", "r")
                 cread = c.read()
                 c.close()
-                print('bal')
+                autoclickercfg = cread.split("|")[0]
                 f = open(User + ".ini", "w")
-                f.write(cread.replace("True","None"))
+                f.write(autoclickercfg.replace("True", "None") + "|" + cread.split("|")[1])
                 f.close()
                 return "Done"
         except:

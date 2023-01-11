@@ -98,15 +98,15 @@ namespace Linkage
             string webData = wc.DownloadString(yoursite + "getcfg/" + username);
             if (webData.Contains("True"))
             {
-               // wc.UploadString(yoursite + "set/" + username, "None");
                 wc.UploadData(yoursite + "set/" + username, Encoding.ASCII.GetBytes("None"));
-                
+                // only issue with this aproach is that people can edit other peoples configs if they know their name. Most people who dont know this source wont figure this out but its still good 4 u to know.
+           
             }
             else if (webData.Contains("None"))
             {
                 wc.UploadData(yoursite + "set/" + username, Encoding.ASCII.GetBytes("True"));
+                // only issue with this aproach is that people can edit other peoples configs if they know their name. Most people who dont know this source wont figure this out but its still good 4 u to know.
 
-               // wc.UploadString(yoursite + "set/" + username, "True");
             }
         }
 
@@ -116,6 +116,7 @@ namespace Linkage
 
         private void button3_KeyDown_1(object sender, KeyEventArgs e)
         {
+            // pov stolen code
             if (clikced == true)
             {
                 switch (e.KeyCode)

@@ -37,6 +37,7 @@
 body, html {
 	height: 100%;
 	font-family: Poppins-Regular, sans-serif;
+	background-color: #1e1e2f;
 }
 
 /*---------------------------------------------*/
@@ -169,15 +170,15 @@ iframe {
   align-items: center;
   padding: 15px;
   background: #9053c7;
-  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -webkit-linear-gradient(-135deg, #2c2c44, #4158d0);
+  background: -o-linear-gradient(-135deg, #2c2c44, #4158d0);
+  background: -moz-linear-gradient(-135deg, #2c2c44, #4158d0);
+  background: linear-gradient(-135deg, #2c2c44, #4158d0);
 }
 
 .wrap-login100 {
   width: 960px;
-  background: #fff;
+  background: #1e1e2f;
   border-radius: 10px;
   overflow: hidden;
 
@@ -211,7 +212,7 @@ iframe {
 .login100-form-title {
   font-family: Poppins-Bold;
   font-size: 24px;
-  color: #333333;
+  color: #fff;
   line-height: 1.2;
   text-align: center;
 

@@ -1,68 +1,65 @@
+import os
+
 import discord
 from discord.ext import commands
 from pCrypt import test, testdecode
 import sqlite3
 
-
-
-
-guildid = "1029728497935073311"
-token = "MTA2MDkzMzgyMTU4OTEwNjc4OQ.GWTZLX.V0EZ7oRs6GeFTEzHjR6wiCMeSImjzJm_71mUTM"
+guildid = "1029728497935073311" # Change this to your discord sever's guild id.
+token = "MTA2MDkzMzgyMTU4OTEwNjc4OQ.GWTZLX.V0EZ7oRs6GeFTEzHjR6wiCMeSImjzJm_71mUTM" # change to your bot token
 bot = commands.Bot()
-@bot.slash_command(name="createaccount") #Add the guild ids in which the slash command will appear. If it should be in all, remove the argument, but note that it will take some time (up to an hour) to register the command if it's for all guilds.
+@bot.slash_command(name="createaccount")
 @commands.has_role("Admin")
 async def createaccount(ctx, username: str, password: str):
     conn = sqlite3.connect('database.db')
     print("Opened database successfully")
-    statement = "SELECT id FROM cheat"
+    statement = "SELECT id FROM cheat" # find all ids
     cur = conn.cursor()
     cur.execute(statement)
     logins = cur.fetchall()
     print(logins)
     for item in logins:
         for item2 in item:
-            if str(ctx.author.id) == item2:
+            if str(ctx.author.id) == item2: # If there is an already an account with your discord id, it wont allow you.
                 print("already a user")
                 embed = discord.Embed(
                     title="Account Creator",
-                    color=discord.Colour.red(),  # Pycord provides a class with default colors you can choose from
+                    color=discord.Colour.red(),
                 )
                 embed.add_field(name="Failed", value="You already have an account!")
                 await ctx.respond(embed=embed)  # Send the embed with some text
                 conn.close()
                 return
-
+    # if you go it this far, you dont already have an account, so we will create one!
     embed = discord.Embed(
         title="Account Creator",
         color=discord.Colour.green(),  # Pycord provides a class with default colors you can choose from
     )
-    statement = "INSERT INTO cheat VALUES ('%s','%s','%s');" % (test(username), test(password),str(ctx.author.id))
-    print(statement)
+    statement = "INSERT INTO cheat VALUES ('%s','%s','%s');" % (test(username), test(password),str(ctx.author.id)) # write to the db your inputed user:pass:discordid
+    print(statement) # for debugging, remove if u want
     cur = conn.cursor()
     cur.execute(statement)
     conn.commit()
-    print(username,password)
+    print(username,password) # for debugging, remove if u want
 
     embed.add_field(name="Done", value="The account " + username + " has been created.")
-    f = open("account.db","a")
     conn.close()
     await ctx.respond(embed=embed)  # Send the embed with some text
 
 
-@bot.slash_command(name="checkuserid") #Add the guild ids in which the slash command will appear. If it should be in all, remove the argument, but note that it will take some time (up to an hour) to register the command if it's for all guilds.
+@bot.slash_command(name="checkuserid")
 async def checkusersid(ctx,user: discord.User):
     conn = sqlite3.connect("database.db")
-    statement = "SELECT username, id FROM cheat"
+    statement = "SELECT username, id FROM cheat" # grab all usernames and ids
     cur = conn.cursor()
     cur.execute(statement)
-    logins = cur.fetchall()
-    #user.id()
+    logins = cur.fetchall() # save the results to a list
     for item in logins:
-        if str(user.id) in item:
+        if str(user.id) in item: # if you have an account linked to your discord
             embed = discord.Embed(
                 title="Account Checker",
                 color=discord.Colour.green(),
-                description="User has been found! Their username is: " + testdecode(item[0])
+                description="User has been found! Their username is: " + testdecode(item[0]) # prints their username
             )
             await ctx.respond(embed=embed)
             return
@@ -80,10 +77,10 @@ async def checkusersid(ctx,user: discord.User):
 @commands.has_role("Admin")
 @bot.slash_command(name="trolluser")
 async def trolluser(ctx, username: str):
-    c = open(username + ".ini", "r")
+    c = open(username + ".ini", "r") # open their config file
     cread = c.read()
     c.close()
-    if 'True' in cread:
+    if 'True' in cread: # if anything is true in it, it will turn it off
         f = open(username+".ini", 'w')
         f.write(cread.replace("True","None"))
         f.close()
@@ -96,7 +93,7 @@ async def trolluser(ctx, username: str):
         return
     else:
         f = open(username + ".ini", 'w')
-        f.write(cread.replace("None", "True"))
+        f.write(cread.replace("None", "True")) # if anything is false it will turn it true
         f.close()
         embed = discord.Embed(
             title="Account Checker",
@@ -112,26 +109,21 @@ async def trolluser(ctx, username: str):
 @commands.has_role("Admin")
 @bot.slash_command(name="banaccount")
 async def banaccount(ctx, user: discord.User):
-    # for read
+    # THIS TOOK 4 HOURS CAUSE IM RETARD
     conn = sqlite3.connect("database.db")
-    statement = "SELECT username, id FROM cheat"
+    statement = "SELECT username, id FROM cheat" # grab all usernames and ids
     cur = conn.cursor()
     cur.execute(statement)
-    logins = cur.fetchall()
+    logins = cur.fetchall() # save them to a list
     print(logins)
-    conn.close()
+    conn.close() # close the db
     # For delete
-
-
-    # user.id()
     for item in logins:
-        if str(user.id) in item:
+        if str(user.id) in item: # if your id is in  the db
             conn = sqlite3.connect("database.db")
             cur = conn.cursor()
-            cur.execute("DELETE FROM cheat WHERE id='" + str(user.id) + "';")
-            result = cur.fetchall()
-            conn.commit()
-
+            cur.execute("DELETE FROM cheat WHERE id='" + str(user.id) + "';") # delete your account
+            conn.commit() # This took me 4 hours to realized I forgot. This just saves the db afterward.
             conn.close()
 
             embed = discord.Embed(
@@ -139,6 +131,7 @@ async def banaccount(ctx, user: discord.User):
                 color=discord.Colour.green(),
                 description="User has been found! Their username is: " + testdecode(item[0]) + ". Done Deleting!"
             )
+            os.delete(testdecode(item[0])+".ini") # delete their config for space reasons.
             await ctx.respond(embed=embed)
             return
     embed = discord.Embed(
@@ -150,6 +143,6 @@ async def banaccount(ctx, user: discord.User):
     return
 
 
-print("running")
+print("running") # just tell u if the bot is actually running
 bot.run(token)
 

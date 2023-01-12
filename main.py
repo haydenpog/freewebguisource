@@ -1,93 +1,83 @@
-from flask import Flask, render_template, redirect, url_for, request, make_response
-from pCrypt import testdecode, test
 import sqlite3
 
+from flask import Flask, render_template, redirect, url_for, request
 
-
+from pCrypt import testdecode
 
 app = Flask(__name__)
 oops = ""
 username = ""
-"""
-If you are seeing this you probably downloaded this off github. This webgui source has very bad security
-and should have the auth recoded. DO NOT USE SELL THIS YOU WILL GET CRACKED IN HALF A SECOND!
-"""
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('database.db')  # Open db for reading
     print("Opened database successfully")
 
-    statement = "SELECT username, password FROM cheat"
+    statement = "SELECT username, password FROM cheat"  # grabs all the users and passes from the db
     cur = conn.cursor()
     cur.execute(statement)
-    logins = cur.fetchall()
+    logins = cur.fetchall()  # puts them in a list
 
-    conn.close()
-    if request.method == 'POST':
-        for item in logins:
-            if request.form['username'] != testdecode(item[0]) or request.form['password'] != testdecode(item[1]):
-                error = 'Invalid Credentials. Please try again.'
+    conn.close()  # closes the connection so it doesn't kill the host / ur pc
+    if request.method == 'POST':  # checks if u submit ur info
+        for item in logins:  # set every login to a seperate list
+            if request.form['username'] != testdecode(item[0]) or request.form['password'] != testdecode(
+                    item[1]):  # Check if password and username work
+                error = 'Invalid Credentials. Please try again.'  # Responds with an error
                 pass
-            if request.form['username'] == testdecode(item[0]) and request.form['password'] == testdecode(item[1]):
-                return cheat(request.form["username"])
-    return render_template('index.html', error=error)
+            if request.form['username'] == testdecode(item[0]) and request.form['password'] == testdecode(
+                    item[1]):  # check if login info correct
+                return cheat(request.form["username"])  # sends u to the webgui
+    return render_template('index.html', error=error)  # render the login page with an error if u have one.
 
 
-@app.route('/admin', methods=['GET', 'POST'])
-def admin():
-    error = None
-    if str(request.cookies.get('user')) == "admin":
-        if request.method == 'POST':
-            f = open("account.db", "r")
-            if str(request.form['username']) + ":" + str(request.form['password']) in f.read():
-                error = 'There is already a user with this name.'
-                f.close()
-            else:
-                f.close()
-                c = open("account.db", 'a')
-                add = "\n" + str(request.form['username']) + ":" + str(request.form['password'])
-                c.write(add)
-                c.close()
-        return render_template('admin.html', error=error)
-    else:
-        return
-
-
-@app.route('/db/<string:authuser>/<string:authpass>')
-def db(authuser,authpass):
+@app.route('/db/<string:authuser>/<string:authpass>')  # api link
+def db(authuser, authpass):
     if request.method == 'GET':
-        conn = sqlite3.connect('database.db')
-        statement = "SELECT username, password FROM cheat"
+        conn = sqlite3.connect('database.db')  # Opens db
+        statement = "SELECT username, password FROM cheat"  # grabs all available login infos
         cur = conn.cursor()
         cur.execute(statement)
-        logins = cur.fetchall()
-        print(logins)
-        conn.close()
+        logins = cur.fetchall()  # sets login info to a a list
+        print(logins)  # print for debugging, you can remove if u want (only u can see this)
+        conn.close()  # kills pc without
         for item in logins:
-            if testdecode(item[0]) == authuser:
-                print("username correct "+ authuser)
-                if testdecode(item[1]) == authpass:
+            if testdecode(item[
+                              0]) == authuser:  # if one of the usernames matches the one you put in than it sends to password check
+                print("username correct " + authuser)  # for debugging
+                if testdecode(item[1]) == authpass:  # checks if password is correct
                     print("user and pass correct, entering.")
-                    return '1'
+                    return '1'  # binary epic coding | this just renders a 1 on the page.
                 else:
-                    return '0'
+                    return '0'  # renders a 0 meaning false
             else:
-                return "0"
+                return "0"  # false
 
-@app.route('/getcfg/<string:User>', methods=['GET','POST'])
+
+@app.route('/getcfg/<string:User>', methods=['GET', 'POST'])
 def getconfig(User):
+    '''
+    This is just how I get the config for the link program / real cheat.
+    :param User:
+    :return:
+    '''
+
     if request.method == 'GET':
         f = open(User + ".ini", 'r')
         op = f.read()
         f.close()
-        return op
+        return op  # Returns the config files contents.
 
 
 @app.route('/set/<string:User>', methods=['POST'])
 def set(User):
+    '''
+    Used for keybinds. When a key is pressed it sends a post request to this link and this changes your cheat on / off.
+    :param User:
+    :return:
+    '''
     if request.method == 'POST':
         data = request.data
         print(data)
@@ -100,7 +90,7 @@ def set(User):
                 c.close()
                 autoclickercfg = cread.split("|")[0]
                 f = open(User + ".ini", "w")
-                f.write(autoclickercfg.replace("None","True")+"|"+cread.split("|")[1])
+                f.write(autoclickercfg.replace("None", "True") + "|" + cread.split("|")[1])
                 f.close()
                 return "Done"
             elif "None" in data:
@@ -116,35 +106,35 @@ def set(User):
             print("error, crashed.")
 
 
-
-
-
-
-def keepsign(signon):
-    if signon == True:
-        return render_template('home.html')
-    elif signon == False:
-        return redirect(url_for(login))
-
-
 @app.route("/")
+# spaghetti code :skull:
 def home():
     return redirect(url_for("login"))
 
 
-
 @app.route('/cheat/<string:User>/', methods=['POST'])
 def cheat(User):
+    # cheat and config saving
     if request.method == 'POST':
+        # autoclicker
         acCPS = str(request.form.get("autoclickcps"))
         acon = str(request.form.get("autoclicker"))
+        keybind = str(request.form.get("letter"))
+
+        # reach
         rvalue = str(request.form.get("reachvalue"))
         reach = str(request.form.get("reach"))
-        keybind = str(request.form.get("letter"))
+
+        '''
+        To add new features:
+        * Add new box with things in the html
+        * Add new form.get in here
+        * Add to the config below V
+        * Add to the linkage program so it reads.
+        * Add to ur cheat ofc :D
+        '''
         f = open(User + ".ini", "w")
         print(acon + acCPS + keybind + "|" + reach + rvalue)
         f.write(acon + acCPS + keybind + "|" + reach + rvalue)
         f.close()
-        return render_template('home.html', username= User)
-
-
+        return render_template('home.html', username=User)

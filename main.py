@@ -64,6 +64,7 @@ def db(authuser,authpass):
         cur = conn.cursor()
         cur.execute(statement)
         logins = cur.fetchall()
+        print(logins)
         conn.close()
         for item in logins:
             if testdecode(item[0]) == authuser:

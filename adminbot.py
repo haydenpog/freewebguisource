@@ -29,6 +29,7 @@ async def createaccount(ctx, username: str, password: str):
                 )
                 embed.add_field(name="Failed", value="You already have an account!")
                 await ctx.respond(embed=embed)  # Send the embed with some text
+                conn.close()
                 return
 
     embed = discord.Embed(
@@ -70,10 +71,11 @@ async def checkusersid(ctx,user: discord.User):
         color=discord.Colour.red(),
         description="User has not been found."
     )
-    await ctx.respond(embed=embed)
-    return
     print(logins)
     conn.close()
+    await ctx.respond(embed=embed)
+    return
+
 
 @commands.has_role("Admin")
 @bot.slash_command(name="trolluser")
@@ -104,6 +106,9 @@ async def trolluser(ctx, username: str):
         await ctx.respond(embed=embed)
         return
 
+
+
+
 @commands.has_role("Admin")
 @bot.slash_command(name="banaccount")
 async def banaccount(ctx, user: discord.User):
@@ -113,18 +118,22 @@ async def banaccount(ctx, user: discord.User):
     cur = conn.cursor()
     cur.execute(statement)
     logins = cur.fetchall()
+    print(logins)
     conn.close()
     # For delete
-    conn2 = sqlite3.connect("database.db")
-    cur2 = conn2.cursor()
+
 
     # user.id()
     for item in logins:
         if str(user.id) in item:
-            print(user.id)
-            cur2.execute("DELETE FROM cheat WHERE id='%s'" % user.id)
-            cur2.fetchall()
-            conn2.close()
+            conn = sqlite3.connect("database.db")
+            cur = conn.cursor()
+            cur.execute("DELETE FROM cheat WHERE id='" + str(user.id) + "';")
+            result = cur.fetchall()
+            conn.commit()
+
+            conn.close()
+
             embed = discord.Embed(
                 title="Account Deleter",
                 color=discord.Colour.green(),
@@ -138,7 +147,6 @@ async def banaccount(ctx, user: discord.User):
         description="User not found."
     )
     await ctx.respond(embed=embed)
-    print(logins)
     return
 
 

@@ -1,15 +1,23 @@
 import os
-
 import discord
 from discord.ext import commands
 from pCrypt import test, testdecode
 import sqlite3
 
+
+'''
+How to setup!
+* Change Bot Token to your own
+* Change guildid to your own guild's id
+* Change the @commands.has_role("Admin") to your role's names
+* Startup on a py host or a vps
+'''
+
 guildid = "1029728497935073311" # Change this to your discord sever's guild id.
 token = "MTA2MDkzMzgyMTU4OTEwNjc4OQ.GWTZLX.V0EZ7oRs6GeFTEzHjR6wiCMeSImjzJm_71mUTM" # change to your bot token
 bot = commands.Bot()
 @bot.slash_command(name="createaccount")
-@commands.has_role("Admin")
+@commands.has_role("Admin") # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
 async def createaccount(ctx, username: str, password: str):
     conn = sqlite3.connect('database.db')
     print("Opened database successfully")

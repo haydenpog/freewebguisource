@@ -1,4 +1,4 @@
-# Skidable Webgui For Minecraft | All you need to make a p2c
+# Skidable Webgui Based Off Minecraft Webgui Cheats.
 
 
 *WARNING YOU MUST HAVE ATLEAST BASIC PYTHON / C# KNOWLEDGE TO USE THIS PROJECT*
@@ -69,3 +69,10 @@ https://bit.ly/3QB1SOC - Is a guide to do it on a Linux based VPS
 * Change guildid to your own guild's id
 * Change the @commands.has_role("Admin") to your role's names
 * Startup on a py host, vps, or even your own pc if you are ballsy
+
+# Why? lmfao
+As a avid fan of webgui based cheats, ive always been curious on how they are developed.
+It seriously doesnt make sense since you cant really code most of the backend in straight .js otherwise it would be broken asf.
+After finding flask (Basically python's website framework) I realized how I could make a webgui through this easily.
+(it wasnt easy). I also figured this was a good time to practice python,C#,html,css and even sql. In the end im super proud of this project,
+It took over 2-4 weeks to make over the many different repositories based around this. I hope you enjoy my shitty code and fuck you im not coming back to minecraft.

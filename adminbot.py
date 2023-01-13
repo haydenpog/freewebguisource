@@ -131,7 +131,7 @@ async def banaccount(ctx, user: discord.User):
             conn = sqlite3.connect("database.db")
             cur = conn.cursor()
             cur.execute("DELETE FROM cheat WHERE id='" + str(user.id) + "';") # delete your account
-            conn.commit() # This took me 4 hours to realized I forgot. This just saves the db afterward.
+            conn.commit() # This took me 4 hours to realize that I forgot this singular line. This just saves the db afterward.
             conn.close()
 
             embed = discord.Embed(

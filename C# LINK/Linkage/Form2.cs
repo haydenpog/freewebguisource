@@ -198,5 +198,10 @@ namespace Linkage
         {
             // SELF DESTRUCT
         }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            this.Opacity = 0;
+        }
     }
 }

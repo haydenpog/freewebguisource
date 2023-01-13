@@ -9,6 +9,11 @@ I wouldn't recommend using this as its just a base64 with extra steps and cracka
 Actually hash+salt ur accounts please. Your db wont get leaked through sql injection so it shouldn't be a big deal
 but please, just change this.
 
+
+AND BTW, 2 DIFFERENT LOOKING STRINGS CAN BE THE SAME DUE TO THE RANDOMIZED LETTERS
+YWRtaW5DWg== IS THE SAME AS YWRtaW5ZUQ==
+admin                       admin
+
 '''
 
 
@@ -31,6 +36,9 @@ def testdecode(text):
     text = text.replace(text[-2] + text[-1], "")
     return (text)
 
+'''
+
+BROKEN -- DONT USE
 
 def pencode(text):
     ran = ''.join(random.choices(string.ascii_uppercase + string.digits, k=2))
@@ -59,7 +67,7 @@ def pdecode(text):
 
     text = base64.b64decode(text.encode("ASCII")).decode("ASCII")
     return text
-
+'''
 
 if __name__ == "__main__":
     pass

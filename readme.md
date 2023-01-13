@@ -35,3 +35,9 @@ A: God no, this shit is stinkay. There are no subscriptions and its only lifetim
 Q: Is this C# only?
 A: No, thats all I could give a fuck to do. Feel free to interpret my code into other coding languages how you want.
 
+# To add new features:
+* Add new box with things in the html
+* Add new form.get in here
+* Add to the config below V
+* Add to the linkage program so it reads.
+* Add to ur cheat ofc :D

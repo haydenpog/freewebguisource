@@ -133,7 +133,7 @@ def cheat(User):
         * Add to ur cheat ofc :D
         '''
         f = open(User + ".ini", "w")
-        print(acon + acCPS + keybind + "|" + reach + rvalue)
+        #print(acon + acCPS + keybind + "|" + reach + rvalue)
         f.write(acon + acCPS + keybind + "|" + reach + rvalue)
         f.close()
         return render_template('home.html', username=User)

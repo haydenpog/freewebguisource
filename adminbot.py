@@ -149,7 +149,21 @@ async def banaccount(ctx, user: discord.User):
     )
     await ctx.respond(embed=embed)
     return
-
+@commands.has_role("Admin")
+@bot.slash_command(name="cleardata")
+async def cleardata(ctx, areyousure: bool):
+    if areyousure == True:
+        conn = sqlite3.connect("database.db")
+        cur = conn.cursor()
+        cur.execute("DROP TABLE cheat;")  # delete your account
+        conn.commit()
+        conn.close()
+        import pathlib
+        path = str(pathlib.Path(__file__).parent.resolve())
+        for x in os.listdir(path):
+            if x.endswith(".ini"):
+                print(x)
+                os.remove(path + r'/' + x)
 
 print("running") # just tell u if the bot is actually running
 bot.run(token)

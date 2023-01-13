@@ -47,7 +47,6 @@ def db(authuser, authpass):
             print(item)  # print for debugging, you can remove if u want (only u can see this)
             print(testdecode(item[0]), testdecode(item[1]))  # print for debugging, you can remove if u want (only u can see this)
             if testdecode(item[0]) == authuser:  # if one of the usernames matches the one you put in than it sends to password check
-                print("username correct " + authuser)  # for debugging
                 if testdecode(item[1]) in authpass:  # checks if password is correct
                     print("user and pass correct, entering.")
                     return '1'  # binary epic coding | this just renders a 1 on the page.
@@ -89,6 +88,7 @@ def set(User):
                 autoclickercfg = cread.split("|")[0]
                 f = open(User + ".ini", "w")
                 f.write(autoclickercfg.replace("None", "True") + "|" + cread.split("|")[1])
+                print(autoclickercfg.replace("None", "True") + "|" + cread.split("|")[1])
                 f.close()
                 return "Done"
             elif "None" in data:
@@ -98,6 +98,7 @@ def set(User):
                 autoclickercfg = cread.split("|")[0]
                 f = open(User + ".ini", "w")
                 f.write(autoclickercfg.replace("True", "None") + "|" + cread.split("|")[1])
+                print(autoclickercfg.replace("True", "None") + "|" + cread.split("|")[1])
                 f.close()
                 return "Done"
         except:

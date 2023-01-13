@@ -28,6 +28,8 @@ namespace Linkage
         bool autotog = false;
         int cps = 0;
         int leftbind = 0;
+        float reach = 0;
+        bool reachtog = false;
 
        
 
@@ -35,26 +37,49 @@ namespace Linkage
         {
             System.Net.WebClient wc = new System.Net.WebClient();
             string webData = wc.DownloadString(yoursite + "getcfg/" + username);
-            if (webData.Contains("True"))
+            char yes = char.Parse("|");
+            string[] features = webData.Split(yes);
+            // AUTOCLICK
+            if (features[0].Contains("True"))
             {
-                label3.Text = webData.Substring(webData.Length - 1);
-                leftbind = (int)(char.Parse(webData.Substring(webData.Length - 1))) - 32;
-                webData = webData.Remove(webData.Length - 1);
+                leftbind = (int)(char.Parse(features[0].Substring(features[0].Length - 1))) - 32;
+                label3.Text = features[0].Substring(features[0].Length - 1);
+                features[0] = features[0].Remove(features[0].Length - 1);
                 label1.Text = "True";
                 autotog = true;
-                webData = webData.Replace("True", "");
-                cps = Int32.Parse(webData);
+                features[0] = features[0].Replace("True", "");
+                cps = Int32.Parse(features[0]);
                 label2.Text = cps.ToString();
             }
-            else if (webData.Contains("None"))
+            else if (features[0].Contains("None"))
             {
-                leftbind = (int)(char.Parse(webData.Substring(webData.Length - 1))) - 32;
-                webData = webData.Remove(webData.Length - 1);
+                leftbind = (int)(char.Parse(features[0].Substring(features[0].Length - 1))) - 32;
+                features[0] = features[0].Remove(features[0].Length - 1);
                 label1.Text = "Off";
                 autotog = false;
-                webData = webData.Replace("None", "");
-                cps = Int32.Parse(webData);
+                features[0] = features[0].Replace("None", "");
+                cps = Int32.Parse(features[0]);
                 label2.Text = cps.ToString();
+
+            }
+
+            // REACH
+            if (features[1].Contains("True"))
+            {
+                label5.Text = "True";
+                reachtog = true;
+                features[1] = features[1].Replace("True", "");
+                reach = float.Parse(features[1]);
+                label4.Text = reach.ToString();
+            }
+            else if (features[1].Contains("None"))
+            {
+                label5.Text = "Off";
+                reachtog = false;
+                features[1] = features[1].Replace("None", "");
+                reach = float.Parse(features[1]);
+                label4.Text = reach.ToString();
+
             }
         }
 
@@ -68,26 +93,48 @@ namespace Linkage
         {
             System.Net.WebClient wc = new System.Net.WebClient();
             string webData = wc.DownloadString(yoursite + "getcfg/" + username);
-            if (webData.Contains("True"))
+            char yes = char.Parse("|");
+            string[] features = webData.Split(yes);
+            // AUTOCLICK
+            if (features[0].Contains("True"))
             {
-                leftbind = (int)(char.Parse(webData.Substring(webData.Length - 1))) - 32;
-                label3.Text = webData.Substring(webData.Length - 1);
-                webData = webData.Remove(webData.Length - 1);
+                leftbind = (int)(char.Parse(features[0].Substring(features[0].Length - 1))) - 32;
+                label3.Text = features[0].Substring(features[0].Length - 1);
+                features[0] = features[0].Remove(features[0].Length - 1);
                 label1.Text = "True";
                 autotog = true;
-                webData = webData.Replace("True", "");
-                cps = Int32.Parse(webData);
+                features[0] = features[0].Replace("True", "");
+                cps = Int32.Parse(features[0]);
                 label2.Text = cps.ToString();
             }
-            else if (webData.Contains("None"))
+            else if (features[0].Contains("None"))
             {
-                leftbind = (int)(char.Parse(webData.Substring(webData.Length - 1))) - 32;
-                webData = webData.Remove(webData.Length - 1);
+                leftbind = (int)(char.Parse(features[0].Substring(features[0].Length - 1))) - 32;
+                features[0] = features[0].Remove(features[0].Length - 1);
                 label1.Text = "Off";
                 autotog = false;
-                webData = webData.Replace("None", "");
-                cps = Int32.Parse(webData);
+                features[0] = features[0].Replace("None", "");
+                cps = Int32.Parse(features[0]);
                 label2.Text = cps.ToString();
+
+            }
+            
+            // REACH
+            if (features[1].Contains("True"))
+            {
+                label5.Text = "True";
+                reachtog = true;
+                features[1] = features[1].Replace("True", "");
+                reach = float.Parse(features[1]);
+                label4.Text = reach.ToString();
+            }
+            else if (features[1].Contains("None"))
+            {
+                label5.Text = "Off";
+                reachtog = false;
+                features[1] = features[1].Replace("None", "");
+                reach = float.Parse(features[1]);
+                label4.Text = reach.ToString();
 
             }
         }
@@ -96,13 +143,15 @@ namespace Linkage
         {
             System.Net.WebClient wc = new System.Net.WebClient();
             string webData = wc.DownloadString(yoursite + "getcfg/" + username);
-            if (webData.Contains("True"))
+            char yes = char.Parse("|");
+            string[] features = webData.Split(yes);
+            if (features[0].Contains("True"))
             {
                 wc.UploadData(yoursite + "set/" + username, Encoding.ASCII.GetBytes("None"));
                 // only issue with this aproach is that people can edit other peoples configs if they know their name. Most people who dont know this source wont figure this out but its still good 4 u to know.
            
             }
-            else if (webData.Contains("None"))
+            else if (features[0].Contains("None"))
             {
                 wc.UploadData(yoursite + "set/" + username, Encoding.ASCII.GetBytes("True"));
                 // only issue with this aproach is that people can edit other peoples configs if they know their name. Most people who dont know this source wont figure this out but its still good 4 u to know.
@@ -111,30 +160,12 @@ namespace Linkage
         }
 
         public bool clikced = false;
-        private void button3_Click(object sender, EventArgs e) { clikced = true; button3.Text = "[...]"; }
+        private void button3_Click(object sender, EventArgs e) { }
 
 
         private void button3_KeyDown_1(object sender, KeyEventArgs e)
         {
-            // pov stolen code
-            if (clikced == true)
-            {
-                switch (e.KeyCode)
-                {
-                    case Keys.Escape:
-                        leftbind = 0;
-                        button3.Text = "[N/A]";
-                        clikced = false;
-                        break;
-
-                    default: 
-                        leftbind = (int)e.KeyCode;
-                        button3.Text = "[" + e.KeyCode + "]";
-                        MessageBox.Show(leftbind.ToString());
-                        clikced = false;
-                        break; 
-                }
-            }
+           
         }
 
         private void timer2_Tick(object sender, EventArgs e)
@@ -146,14 +177,19 @@ namespace Linkage
                 
                 System.Net.WebClient wc = new System.Net.WebClient();
                 string webData = wc.DownloadString(yoursite + "getcfg/" + username);
-                if (webData.Contains("True"))
+                char yes = char.Parse("|");
+                string[] features = webData.Split(yes);
+                if (features[0].Contains("True"))
                 {
                     wc.UploadData(yoursite + "set/" + username, Encoding.ASCII.GetBytes("None"));
+                    // only issue with this aproach is that people can edit other peoples configs if they know their name. Most people who dont know this source wont figure this out but its still good 4 u to know.
 
                 }
-                else if (webData.Contains("None"))
+                else if (features[0].Contains("None"))
                 {
                     wc.UploadData(yoursite + "set/" + username, Encoding.ASCII.GetBytes("True"));
+                    // only issue with this aproach is that people can edit other peoples configs if they know their name. Most people who dont know this source wont figure this out but its still good 4 u to know.
+
                 }
             }
         }

@@ -62,4 +62,5 @@ def pdecode(text):
 
 
 if __name__ == "__main__":
+    print(testdecode("aGF5ZGVuZXBpYzJN"))
     pass

@@ -44,17 +44,15 @@ def db(authuser, authpass):
         print(logins)  # print for debugging, you can remove if u want (only u can see this)
         conn.close()  # kills pc without
         for item in logins:
-            if testdecode(item[
-                              0]) == authuser:  # if one of the usernames matches the one you put in than it sends to password check
+            print(item)  # print for debugging, you can remove if u want (only u can see this)
+            print(testdecode(item[0]), testdecode(item[1]))  # print for debugging, you can remove if u want (only u can see this)
+            if testdecode(item[0]) == authuser:  # if one of the usernames matches the one you put in than it sends to password check
                 print("username correct " + authuser)  # for debugging
-                if testdecode(item[1]) == authpass:  # checks if password is correct
+                if testdecode(item[1]) in authpass:  # checks if password is correct
                     print("user and pass correct, entering.")
                     return '1'  # binary epic coding | this just renders a 1 on the page.
-                else:
-                    return '0'  # renders a 0 meaning false
-            else:
-                return "0"  # false
-
+        print("FALSE")
+        return '0'
 
 @app.route('/getcfg/<string:User>', methods=['GET', 'POST'])
 def getconfig(User):

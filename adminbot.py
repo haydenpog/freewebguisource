@@ -139,7 +139,7 @@ async def banaccount(ctx, user: discord.User):
                 color=discord.Colour.green(),
                 description="User has been found! Their username is: " + testdecode(item[0]) + ". Done Deleting!"
             )
-            os.delete(testdecode(item[0])+".ini") # delete their config for space reasons.
+            os.remove(testdecode(item[0])+".ini") # delete their config for space reasons.
             await ctx.respond(embed=embed)
             return
     embed = discord.Embed(

@@ -1,7 +1,12 @@
 # Skidable Webgui For Minecraft | All you need to make a p2c
 
+
+*WARNING YOU MUST HAVE ATLEAST BASIC PYTHON / C# KNOWLEDGE TO USE THIS PROJECT*
+
 This webgui client comes with:
 ```
+Easily hostable
+Quick startup.
 SQLite Database (With sql injection prevention)
 Custom String Encryption
 Login System
@@ -21,7 +26,7 @@ Spaghetti code (random ass variable names dont @ me)
 # Possible questions
 
 Q: How would I add my own custom html files?
-A: By editing the template files in the templates folder, you can change how your webgui looks!
+A: By editing the template files in the template folder, you can change how your webgui looks!
 
 Q: How do I start up the server?
 A: You can either buy a vps and download python on it (easiest), or buy a cheap python hosting server and upload the files
@@ -44,3 +49,23 @@ A: No, thats all I could give a fuck to do. Feel free to interpret my code into 
 * Add to the config write string
 * Add to the linkage program so it reads.
 * Add the real feature to ur cheat ofc :D
+
+# How to run the site off a VPS
+Its just like a normal pc, start the start.py and make sure you have port 5000 forwarded. The discord bot does not require portforwarding, so just run the script, and it should work.
+To portforward, please check the next section.
+
+# How to portforward off a VPS
+https://tryrdp.com/blog/port-forwarding-on-windows-vps/ - Is a guide to do it on a Windows based VPS
+https://bit.ly/3QB1SOC - Is a guide to do it on a Linux based VPS
+
+# How to localhost the bot:
+* Run start.py
+* Run adminbot.py
+* done
+
+# How to start the discord bot:
+
+* Change Bot Token to your own
+* Change guildid to your own guild's id
+* Change the @commands.has_role("Admin") to your role's names
+* Startup on a py host, vps, or even your own pc if you are ballsy

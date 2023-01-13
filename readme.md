@@ -7,10 +7,13 @@ Custom String Encryption
 Login System
 Webgui Cheat Menu
 Keybinds you edit from web
-Realtime Configuring
+Realtime Configuring (fast updating)
 C# login base
 Hidden Files *Flask makes all files hidden through inspect element-sources
 Discord bot for managing accounts
+    * Create Accounts
+    * Ban Accounts
+    * Discord link to account
 Light weight and fast speeds on even the shittiest of hosting
 Easy Expandability
 Spaghetti code (random ass variable names dont @ me)
@@ -37,7 +40,7 @@ A: No, thats all I could give a fuck to do. Feel free to interpret my code into 
 
 # To add new features:
 * Add new box with things in the html
-* Add new form.get in here
-* Add to the config below V
+* Add new form.get for the new items in cheat function
+* Add to the config write string
 * Add to the linkage program so it reads.
-* Add to ur cheat ofc :D
+* Add the real feature to ur cheat ofc :D

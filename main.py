@@ -20,7 +20,7 @@ def login():
     cur.execute(statement)
     logins = cur.fetchall()  # puts them in a list
 
-    conn.close()  # closes the connection so it doesn't kill the host / ur pc
+    conn.close()  # closes the connection, so it doesn't kill the host / ur pc
     if request.method == 'POST':  # checks if u submit ur info
         for item in logins:  # set every login to a seperate list
             if request.form['username'] != testdecode(item[0]) or request.form['password'] != testdecode(
@@ -49,6 +49,7 @@ def db(authuser, authpass):
             if testdecode(item[0]) == authuser:  # if one of the usernames matches the one you put in than it sends to password check
                 if testdecode(item[1]) in authpass:  # checks if password is correct
                     print("user and pass correct, entering.")
+                    # I recommend you read the readme.md for this part (SSL checking)
                     return '1'  # binary epic coding | this just renders a 1 on the page.
         print("FALSE")
         return '0'

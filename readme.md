@@ -1,7 +1,7 @@
 # Skidable Webgui Based Off Minecraft Webgui Cheats.
 
 
-*WARNING YOU MUST HAVE ATLEAST BASIC PYTHON / C# KNOWLEDGE TO USE THIS PROJECT*
+*WARNING YOU MUST HAVE ATLEAST BASIC PYTHON / C# KNOWLEDGE TO EFFECTIVELY USE THIS PROJECT*
 
 This webgui client comes with:
 ```
@@ -19,8 +19,9 @@ Discord bot for managing accounts
     * Create Accounts
     * Ban Accounts
     * Discord link to account
+    * Logs 
 Light weight and fast speeds on even the shittiest of hosting
-Easy Expandability
+Somewhat Easy Expandability
 Spaghetti code (random ass variable names dont @ me)
 ```
 # Possible questions
@@ -35,7 +36,7 @@ Q: Am I allowed to use this in my p2c (pay to cheat)
 A: Yes but with credit, and if you don't ill crack ur shit in 2 minutes you nn :D
 
 Q: How long did this take to make?
-A: Umm, i skipped doing like 2 weeks worth of classwork doing this so like plz enjoy :D
+A: Umm, i skipped doing like 3 weeks worth of classwork doing this so like plz enjoy :D
 
 Q: Is this sustainable and easy to keep up?
 A: God no, this shit is stinkay. There are no subscriptions and its only lifetime. 
@@ -68,11 +69,11 @@ https://bit.ly/3QB1SOC - Is a guide to do it on a Linux based VPS
 * Change Bot Token to your own
 * Change guildid to your own guild's id
 * Change the @commands.has_role("Admin") to your role's names
-* Startup on a py host, vps, or even your own pc if you are ballsy
+* Startup adminbot.py on a py host, vps, or even your own pc (remember you have to keep the adminbot py file in the same directory it is now. Otherwise it may break connections with all the databases, configs, etc.)
 
 # Why? lmfao
 As a avid fan of webgui based cheats, ive always been curious on how they are developed.
 It seriously doesnt make sense since you cant really code most of the backend in straight .js otherwise it would be broken asf.
 After finding flask (Basically python's website framework) I realized how I could make a webgui through this easily.
 (it wasnt easy). I also figured this was a good time to practice python,C#,html,css and even sql. In the end im super proud of this project,
-It took over 2-4 weeks to make over the many different repositories based around this. I hope you enjoy my shitty code and fuck you im not coming back to minecraft.
+It took over 2-4 weeks to make, over the many repositories based around this. I hope you enjoy my shitty code and fuck you im not coming back to minecraft.

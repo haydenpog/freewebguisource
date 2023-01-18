@@ -8,6 +8,7 @@ This webgui client comes with:
 Easily hostable
 Quick startup.
 SQLite Database (With sql injection prevention)
+Access subscriptions (P2C)
 Custom String Encryption
 Login System
 Webgui Cheat Menu
@@ -19,6 +20,7 @@ Discord bot for managing accounts
     * Create Accounts
     * Ban Accounts
     * Discord link to account
+    * Adding subscriptions
     * Logs 
 Light weight and fast speeds on even the shittiest of hosting
 Somewhat Easy Expandability
@@ -39,10 +41,10 @@ Q: How long did this take to make?
 A: Umm, i skipped doing like 3 weeks worth of classwork doing this so like plz enjoy :D
 
 Q: Is this sustainable and easy to keep up?
-A: God no, this shit is stinkay. There are no subscriptions and its only lifetime. 
+A: Its alright, with the new subscriptions its pretty easy to keep up with
 
 Q: Is this C# only?
-A: No, thats all I could give a fuck to do. Feel free to interpret my code into other coding languages how you want.
+A: No, that's all I could give a fuck to do. Feel free to interpret my code into other coding languages how you want.
 
 # To add new features:
 * Add new box with things in the html
@@ -68,8 +70,8 @@ https://bit.ly/3QB1SOC - Is a guide to do it on a Linux based VPS
 
 * Change Bot Token to your own
 * Change guildid to your own guild's id
-* Change the @commands.has_role("Admin") to your role's names
-* Startup adminbot.py on a py host, vps, or even your own pc (remember you have to keep the adminbot py file in the same directory it is now. Otherwise it may break connections with all the databases, configs, etc.)
+* Change the @commands.has_role("Admin") to your role's names (for people without the role, it wont respond / do anything. it shows as an error in the console but ignore it.)
+* Startup adminbot.py on a py host, vps, or even your own pc (remember you have to keep the adminbot py file in the same directory it is now. Otherwise, it may break connections with all the databases, configs, etc.)
 
 # Why? lmfao
 As a avid fan of webgui based cheats, ive always been curious on how they are developed.

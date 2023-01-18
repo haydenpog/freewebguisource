@@ -13,8 +13,8 @@ How to setup!
 * Startup on a py host or a vps
 '''
 now = datetime.now()
-guildid = "PUT YOUR GUILD ID HERE"  # Change this to your discord sever's guild id.
-token = "PUT YOUR TOKEN HERE"  # change to your bot token
+guildid = ""  # Change this to your discord sever's guild id.
+token = ""  # change to your bot token
 bot = commands.Bot()
 
 
@@ -225,6 +225,38 @@ async def cleardata(ctx, areyousure: bool):
 @bot.slash_command(name="logs")
 async def logs(ctx):
     await ctx.send(file=discord.File(r'logs.txt'))
-
+@commands.has_role("Admin")
+@bot.slash_command(name="changepassword")
+async def changepassword(ctx, newpass:str):
+    conn = sqlite3.connect("database.db")
+    statement = "SELECT username, id FROM cheat"  # grab all usernames and ids
+    cur = conn.cursor()
+    cur.execute(statement)
+    logins = cur.fetchall()  # save the results to a list
+    for item in logins:
+        if str(ctx.author.id) in item:  # if you have an account linked to your discord
+            conn.close()
+            embed = discord.Embed(
+                title="Account Checker",
+                color=discord.Colour.green(),
+                description="User has been found!"+ testdecode(item[0]) + "'s Password has been changed."  # prints their username
+            )
+            conn2 = sqlite3.connect("database.db")
+            statement2 = "UPDATE cheat SET password = '%s' WHERE id = '%s'" % (test(newpass), str(ctx.author.id)) # grab all usernames and ids
+            cur2 = conn2.cursor()
+            cur2.execute(statement2)
+            conn2.commit()
+            conn2.close()
+            await ctx.respond(embed=embed)
+            return
+    embed = discord.Embed(
+        title="Account Checker",
+        color=discord.Colour.red(),
+        description="User has not been found."
+    )
+    print(logins)
+    conn.close()
+    await ctx.respond(embed=embed)
+    return
 print("running")  # just tell u if the bot is actually running
 bot.run(token)

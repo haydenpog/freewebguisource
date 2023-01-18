@@ -1,7 +1,6 @@
 import base64
 import string
 import random
-
 '''
 
 I refuse to explain this.
@@ -70,4 +69,5 @@ def pdecode(text):
 '''
 
 if __name__ == "__main__":
+    print(test("pCrypt") + " == '" + test("pCrypt") + " == " + testdecode("cENyeXB0QlQ="))
     pass

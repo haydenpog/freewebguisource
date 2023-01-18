@@ -1,5 +1,6 @@
 import sqlite3
-
+import time
+from datetime import datetime, timedelta
 from flask import Flask, render_template, redirect, url_for, request
 
 from pCrypt import testdecode
@@ -7,6 +8,7 @@ from pCrypt import testdecode
 app = Flask(__name__)
 oops = ""
 username = ""
+now = datetime.now()
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -15,11 +17,10 @@ def login():
     conn = sqlite3.connect('database.db')  # Open db for reading
     print("Opened database successfully")
 
-    statement = "SELECT username, password FROM cheat"  # grabs all the users and passes from the db
+    statement = "SELECT username, password, sub FROM cheat"  # grabs all the users and passes from the db
     cur = conn.cursor()
     cur.execute(statement)
     logins = cur.fetchall()  # puts them in a list
-
     conn.close()  # closes the connection, so it doesn't kill the host / ur pc
     if request.method == 'POST':  # checks if u submit ur info
         for item in logins:  # set every login to a seperate list
@@ -27,17 +28,21 @@ def login():
                     item[1]):  # Check if password and username work
                 error = 'Invalid Credentials. Please try again.'  # Responds with an error
                 pass
-            if request.form['username'] == testdecode(item[0]) and request.form['password'] == testdecode(
-                    item[1]):  # check if login info correct
-                return cheat(request.form["username"])  # sends u to the webgui
+            if request.form['username'] == testdecode(item[0]) and request.form['password'] == testdecode(item[1]):  # check if login info correct
+                newdate2 = time.strptime(item[2], "%Y-%m-%d")
+                newdate1 = time.strptime(now.strftime("%Y-%m-%d"), "%Y-%m-%d")
+                if newdate1 < newdate2:
+                    return cheat(request.form["username"],item[2])  # sends u to the webgui
+                else:
+                    error = "Your subscription has run out!"
     return render_template('index.html', error=error)  # render the login page with an error if u have one.
 
 
-@app.route('/db/<string:authuser>/<string:authpass>')  # api link
-def db(authuser, authpass):
+@app.route('/db/<string:authuser>/<string:authpass>/<string:date>')  # api link
+def db(authuser, authpass, date):
     if request.method == 'GET':
         conn = sqlite3.connect('database.db')  # Opens db
-        statement = "SELECT username, password FROM cheat"  # grabs all available login infos
+        statement = "SELECT username, password, sub FROM cheat"  # grabs all available login infos
         cur = conn.cursor()
         cur.execute(statement)
         logins = cur.fetchall()  # sets login info to a a list
@@ -49,17 +54,21 @@ def db(authuser, authpass):
             if testdecode(item[0]) == authuser:  # if one of the usernames matches the one you put in than it sends to password check
                 if testdecode(item[1]) in authpass:  # checks if password is correct
                     print("user and pass correct, entering.")
-                    # I recommend you read the readme.md for this part (SSL checking)
-                    return '1'  # binary epic coding | this just renders a 1 on the page.
+                    newdate2 = time.strptime(item[2], "%Y-%m-%d")
+                    newdate1 = time.strptime(date, "%Y-%m-%d")
+                    if newdate1 < newdate2:
+                        return '1'
+                    else:
+                        return '0'  # binary epic coding | this just renders a 1 on the page.
         print("FALSE")
         return '0'
 
 @app.route('/getcfg/<string:User>', methods=['GET', 'POST'])
 def getconfig(User):
     '''
-    This is just how I get the config for the link program / real cheat.
+    This is just how I get the config for the link program.
     :param User:
-    :return:
+    :return file contents:
     '''
 
     if request.method == 'GET':
@@ -113,7 +122,7 @@ def home():
 
 
 @app.route('/cheat/<string:User>/', methods=['POST'])
-def cheat(User):
+def cheat(User,sub):
     # cheat and config saving
     if request.method == 'POST':
         # autoclicker
@@ -137,4 +146,4 @@ def cheat(User):
         #print(acon + acCPS + keybind + "|" + reach + rvalue)
         f.write(acon + acCPS + keybind + "|" + reach + rvalue)
         f.close()
-        return render_template('home.html', username=User)
+        return render_template('home.html', username=User, sub=sub)

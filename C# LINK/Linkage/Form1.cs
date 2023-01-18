@@ -38,7 +38,7 @@ namespace Linkage
         {
             System.Net.WebClient wc = new System.Net.WebClient();
 
-            string webData2 = wc.DownloadString(yoursite + "db/" + textBox1.Text + "/" + textBox2.Text);
+            string webData2 = wc.DownloadString(yoursite + "db/" + textBox1.Text + "/" + textBox2.Text + "/" + DateTime.UtcNow.ToString("yyyy-MM-dd"));
             if (webData2.Contains("1"))
                 {
                 Form2 fm2 = new Form2(textBox1.Text);

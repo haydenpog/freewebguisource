@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import discord
 from discord.ext import commands
@@ -13,14 +13,13 @@ How to setup!
 * Startup on a py host or a vps
 '''
 now = datetime.now()
-guildid = "1029728497935073311"  # Change this to your discord sever's guild id.
-token = "MTA2MDkzMzgyMTU4OTEwNjc4OQ.GWTZLX.V0EZ7oRs6GeFTEzHjR6wiCMeSImjzJm_71mUTM"  # change to your bot token
+guildid = "PUT YOUR GUILD ID HERE"  # Change this to your discord sever's guild id.
+token = "PUT YOUR TOKEN HERE"  # change to your bot token
 bot = commands.Bot()
 
 
 @bot.slash_command(name="createaccount")
-@commands.has_role(
-    "Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
+@commands.has_role("Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
 async def createaccount(ctx, username: str, password: str):
     f = open("logs.txt", "a")
     conn = sqlite3.connect('database.db')
@@ -50,7 +49,7 @@ async def createaccount(ctx, username: str, password: str):
         title="Account Creator",
         color=discord.Colour.green(),  # Pycord provides a class with default colors you can choose from
     )
-    statement = "INSERT INTO cheat VALUES ('%s','%s','%s');" % (test(username), test(password), str(ctx.author.id))  # write to the db your inputed user:pass:discordid
+    statement = "INSERT INTO cheat VALUES ('%s','%s','%s','%s');" % (test(username), test(password), str(ctx.author.id),now.strftime("%Y-%m-%d"))  # write to the db your inputed user:pass:discordid
     print(statement)  # for debugging, remove if u want
     cur = conn.cursor()
     cur.execute(statement)
@@ -64,7 +63,37 @@ async def createaccount(ctx, username: str, password: str):
     await ctx.respond(embed=embed)  # Send the embed with some text
     return
 
-
+@bot.slash_command(name="setsub")
+@commands.has_role("Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
+async def setsubscription(ctx, username: str, length: int):
+    start_date = now.strftime("%m/%d/%y")
+    date_1 = datetime.strptime(start_date, "%m/%d/%y")
+    end_date = date_1 + timedelta(days=length)
+    end_date = str(end_date)[:10]
+    print(end_date)
+    conn = sqlite3.connect('database.db')
+    statement = "SELECT username FROM cheat"  # find all ids
+    cur = conn.cursor()
+    cur.execute(statement)
+    logins = cur.fetchall()
+    for login in logins:
+        print(login)
+        if testdecode(login[0]) == username:
+            conn.close()
+            # set sub
+            conn2 = sqlite3.connect('database.db')
+            statement2 = "UPDATE cheat SET sub = '%s' WHERE username = '%s';" % (end_date,login[0]) # find all ids
+            cur2 = conn2.cursor()
+            cur2.execute(statement2)
+            conn2.commit()
+            conn2.close()
+            embed = discord.Embed(
+                title="Account Creator",
+                color=discord.Colour.green(),  # Pycord provides a class with default colors you can choose from
+                description="You have added " + str(length) + " days to their sub!"
+            )
+            await ctx.respond(embed=embed)
+            return
 @bot.slash_command(name="checkuserid")
 async def checkusersid(ctx, user: discord.User):
     conn = sqlite3.connect("database.db")
@@ -133,7 +162,7 @@ async def trolluser(ctx, username: str):
 @commands.has_role("Admin")
 @bot.slash_command(name="banaccount")
 async def banaccount(ctx, user: discord.User):
-    # THIS TOOK 4 HOURS CAUSE IM RETARD
+    # THIS TOOK 4 HOURS CAUSE IM DUMB
     conn = sqlite3.connect("database.db")
     statement = "SELECT username, id FROM cheat"  # grab all usernames and ids
     cur = conn.cursor()
@@ -178,14 +207,14 @@ async def cleardata(ctx, areyousure: bool):
         conn = sqlite3.connect("database.db")
         cur = conn.cursor()
         cur.execute("DROP TABLE cheat;")  # delete your account
-        cur.execute("CREATE TABLE cheat (username text,password text,id text);")
+        cur.execute("CREATE TABLE cheat (username text,password text,id text,sub text);")
         import pathlib
         path = str(pathlib.Path(__file__).parent.resolve())
         for x in os.listdir(path):
             if x.endswith(".ini"):
                 print(x)
                 os.remove(path + r'/' + x)
-        cur.execute("INSERT INTO cheat VALUES ('%s','%s','0');" % (test("admin"), test("admin")))
+        cur.execute("INSERT INTO cheat VALUES ('%s','%s','0','9999-12-25');" % (test("admin"), test("admin")))
         conn.commit()
         conn.close()
         await ctx.respond("DB HAS BEEN RESET | Login: admin:admin")

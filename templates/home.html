@@ -5,7 +5,6 @@ div {
   border-radius: 15px;
   background-color: #2c2c44;
 }
-
 	
 body {
   margin: 0;
@@ -27,8 +26,8 @@ body {
   margin: 0;
   position: absolute;
   top: 40%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+  -ms-transform: translateY(-45%);
+  transform: translateY(-45%);
 }
 .horizontal-center {
   margin: 0;
@@ -44,7 +43,6 @@ body {
     <head>
 </head>
     <body>
-	<div>
 	<form method="POST" action="/cheat/{{username}}/">	
 		<!--Autoclicker -->
 		<div class="vertical-center" style="width: 300px;">
@@ -76,19 +74,26 @@ body {
 		<!--End Reach -->
 		
 		<!--Header-->
-		<center>  <strong><font size="+1">Hello, {{username}} Welcome to ----</font></strong> 
+		<div style="height:260px;">
+		<center>  
+		<strong><font size="+1">Hello, {{username}} Welcome to ----</font></strong> 
 					<p><p/>
 		            <input type="Submit" value="Save" />
 					<p></p>
 					<strong><font size="+1">Account Info</font></strong> 					
 					<p></p>
 					<p>Your subscription will end on: {{sub}}</p>
-
-					
+					<p></p>
+					<strong><font size="+1">Configs</font></strong> 					
+					<p></p>
+					<input type="text" name="cfgset" id="cfgset" placeholder="Set a config." maxlength="16"> 
+					<p></p>
+					<button onclick="location.href='/getcfg/{{username}}'" type="button">
+         Get Config</button>
 		</center>
+		</div>
 		<!--End Header-->
 		</form>
-		</div>
 		<script>
 	const selectHtmlElement = document.querySelector("#letter");
 

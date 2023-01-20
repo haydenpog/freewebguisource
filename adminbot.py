@@ -7,16 +7,28 @@ import sqlite3
 
 '''
 How to setup!
+* set debug to false if it isnt already.
 * Change Bot Token to your own
 * Change guildid to your own guild's id
 * Change the @commands.has_role("Admin") to your role's names
 * Startup on a py host or a vps
 '''
-now = datetime.now()
-guildid = ""  # Change this to your discord sever's guild id.
-token = ""  # change to your bot token
-bot = commands.Bot()
 
+debug = False
+now = datetime.now()
+guildid = "GUILDID"  # Change this to your discord sever's guild id.
+token = "BOTTOKEN"  # change to your bot token
+bot = commands.Bot()
+@bot.slash_command(name="debug")
+@commands.has_role("Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
+async def debugmode(ctx):
+    global debug
+    if debug == False:
+        debug = True
+        await ctx.respond("Debug Enabled. This may take a few seconds to refresh")
+    else:
+        debug = False
+        await ctx.respond("Debug Disabled. This may take a few seconds to refresh")
 
 @bot.slash_command(name="createaccount")
 @commands.has_role("Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
@@ -39,7 +51,7 @@ async def createaccount(ctx, username: str, password: str):
                 )
                 embed.add_field(name="Failed", value="You already have an account!")
                 await ctx.respond(embed=embed)  # Send the embed with some text
-                yesr = str("[-] | " + now.strftime("%d/%m/%Y %H:%M:%S"), " | " + str(ctx.author.id) + " tried to create an account and failed\n")
+                yesr = str("[-] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " tried to create an account and failed\n")
                 f.write(yesr)
                 f.close()
                 conn.close()
@@ -188,8 +200,8 @@ async def banaccount(ctx, user: discord.User):
             yesr = str("[*] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " has banned " + testdecode(item[0]) + " successfully\n")
             d.write(yesr)
             d.close()
-            os.remove(testdecode(item[0]) + ".ini")  # delete their config for space reasons.
             await ctx.respond(embed=embed)
+            os.remove(testdecode(item[0]) + ".ini")  # delete their config for space reasons.
             return
     embed = discord.Embed(
         title="Account Deleter",
@@ -199,28 +211,32 @@ async def banaccount(ctx, user: discord.User):
     await ctx.respond(embed=embed)
     return
 
-
 @commands.has_role("Admin")
 @bot.slash_command(name="cleardata")
 async def cleardata(ctx, areyousure: bool):
-    if areyousure:
-        conn = sqlite3.connect("database.db")
-        cur = conn.cursor()
-        cur.execute("DROP TABLE cheat;")  # delete your account
-        cur.execute("CREATE TABLE cheat (username text,password text,id text,sub text);")
-        import pathlib
-        path = str(pathlib.Path(__file__).parent.resolve())
-        for x in os.listdir(path):
-            if x.endswith(".ini"):
-                print(x)
-                os.remove(path + r'/' + x)
-        cur.execute("INSERT INTO cheat VALUES ('%s','%s','0','9999-12-25');" % (test("admin"), test("admin")))
-        conn.commit()
-        conn.close()
-        await ctx.respond("DB HAS BEEN RESET | Login: admin:admin")
-        return
+    if debug == True:
+        if areyousure:
+                conn = sqlite3.connect("database.db")
+                cur = conn.cursor()
+                cur.execute("DROP TABLE cheat;")  # delete your account
+                cur.execute("CREATE TABLE cheat (username text,password text,id text,sub text);")
+                import pathlib
+                path = str(pathlib.Path(__file__).parent.resolve())
+                for x in os.listdir(path):
+                    if x.endswith(".ini"):
+                        print(x)
+                        os.remove(path + r'/' + x)
+                cur.execute("INSERT INTO cheat VALUES ('%s','%s','0','9999-12-25');" % (test("admin"), test("admin")))
+                conn.commit()
+                conn.close()
+                await ctx.respond("DB HAS BEEN RESET | Login: admin:admin")
+                return
+        else:
+            await ctx.respond("dumbass")
     else:
-        await ctx.respond("dumbass")
+        await ctx.respond("Debug mode is currently is disabled.")
+
+
 @commands.has_role("Admin")
 @bot.slash_command(name="logs")
 async def logs(ctx):
@@ -258,5 +274,7 @@ async def changepassword(ctx, newpass:str):
     conn.close()
     await ctx.respond(embed=embed)
     return
+
+
 print("running")  # just tell u if the bot is actually running
 bot.run(token)

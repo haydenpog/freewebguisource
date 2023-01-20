@@ -32,7 +32,7 @@ def login():
                 newdate2 = time.strptime(item[2], "%Y-%m-%d")
                 newdate1 = time.strptime(now.strftime("%Y-%m-%d"), "%Y-%m-%d")
                 if newdate1 < newdate2:
-                    return cheat(request.form["username"],item[2])  # sends u to the webgui
+                    return cheat(request.form["username"])  # sends u to the webgui
                 else:
                     error = "Your subscription has run out!"
     return render_template('index.html', error=error)  # render the login page with an error if u have one.
@@ -121,9 +121,31 @@ def home():
     return redirect(url_for("login"))
 
 
+def checkreality(config:str): # Check config formating
+    #True15a|None3.02
+    if "|" in config:
+        config = config.split("|")
+        if "True" in config[0]:
+            return True
+        elif "None" in config[0]:
+            return True
+        else:
+            return False
+    else:
+        return False
+
 @app.route('/cheat/<string:User>/', methods=['POST'])
-def cheat(User,sub):
+def cheat(User):
     # cheat and config saving
+    conn = sqlite3.connect('database.db')  # Open db for reading
+    statement = "SELECT username, sub FROM cheat"  # grabs all the users and passes from the db
+    cur = conn.cursor()
+    cur.execute(statement)
+    logins = cur.fetchall()  # puts them in a list
+    conn.close()
+    for login in logins:
+        if User in testdecode(login[0]):
+            sub = login[1]
     if request.method == 'POST':
         # autoclicker
         acCPS = str(request.form.get("autoclickcps"))
@@ -133,6 +155,8 @@ def cheat(User,sub):
         # reach
         rvalue = str(request.form.get("reachvalue"))
         reach = str(request.form.get("reach"))
+
+        configset = str(request.form.get("cfgset"))
 
         '''
         To add new features:
@@ -146,4 +170,11 @@ def cheat(User,sub):
         #print(acon + acCPS + keybind + "|" + reach + rvalue)
         f.write(acon + acCPS + keybind + "|" + reach + rvalue)
         f.close()
+        if checkreality(configset) == True:
+            d = open(User + ".ini", "w")
+            print(configset)
+            d.write(configset)
+            d.close()
+        else:
+            print("false")
         return render_template('home.html', username=User, sub=sub)

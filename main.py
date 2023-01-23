@@ -1,6 +1,6 @@
 import sqlite3
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from flask import Flask, render_template, redirect, url_for, request
 
 from pCrypt import testdecode
@@ -24,8 +24,7 @@ def login():
     conn.close()  # closes the connection, so it doesn't kill the host / ur pc
     if request.method == 'POST':  # checks if u submit ur info
         for item in logins:  # set every login to a seperate list
-            if request.form['username'] != testdecode(item[0]) or request.form['password'] != testdecode(
-                    item[1]):  # Check if password and username work
+            if request.form['username'] != testdecode(item[0]) or request.form['password'] != testdecode(item[1]):  # Check if password and username work
                 error = 'Invalid Credentials. Please try again.'  # Responds with an error
                 pass
             if request.form['username'] == testdecode(item[0]) and request.form['password'] == testdecode(item[1]):  # check if login info correct
@@ -50,7 +49,7 @@ def db(authuser, authpass, date):
         conn.close()  # kills pc without
         for item in logins:
             print(item)  # print for debugging, you can remove if u want (only u can see this)
-            print(testdecode(item[0]), testdecode(item[1]))  # print for debugging, you can remove if u want (only u can see this)
+            print(testdecode(item[0]),testdecode(item[1]))  # print for debugging, you can remove if u want (only u can see this)
             if testdecode(item[0]) == authuser:  # if one of the usernames matches the one you put in than it sends to password check
                 if testdecode(item[1]) in authpass:  # checks if password is correct
                     print("user and pass correct, entering.")
@@ -63,13 +62,14 @@ def db(authuser, authpass, date):
         print("FALSE")
         return '0'
 
+
 @app.route('/getcfg/<string:User>', methods=['GET', 'POST'])
 def getconfig(User):
-    '''
+    """
     This is just how I get the config for the link program.
     :param User:
     :return file contents:
-    '''
+    """
 
     if request.method == 'GET':
         f = open(User + ".ini", 'r')
@@ -80,11 +80,11 @@ def getconfig(User):
 
 @app.route('/set/<string:User>', methods=['POST'])
 def set(User):
-    '''
+    """
     Used for keybinds. When a key is pressed it sends a post request to this link and this changes your cheat on / off.
     :param User:
     :return:
-    '''
+    """
     if request.method == 'POST':
         data = request.data
         print(data)
@@ -134,6 +134,7 @@ def checkreality(config:str): # Check config formating
     else:
         return False
 
+
 @app.route('/cheat/<string:User>/', methods=['POST'])
 def cheat(User):
     # cheat and config saving
@@ -167,7 +168,6 @@ def cheat(User):
         * Add to ur cheat ofc :D
         '''
         f = open(User + ".ini", "w")
-        #print(acon + acCPS + keybind + "|" + reach + rvalue)
         f.write(acon + acCPS + keybind + "|" + reach + rvalue)
         f.close()
         if checkreality(configset) == True:

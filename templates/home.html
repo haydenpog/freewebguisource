@@ -17,6 +17,16 @@ body {
   background-color: #1e1e2f;
 }
 
+input.largerCheckbox {
+            width: 25px;
+            height: 25px;
+}
+
+input.largerSlider {
+            width: 150px;
+            height: 25px;
+}
+
 .container {
   height: 200px;
   position: relative;
@@ -26,8 +36,8 @@ body {
   margin: 0;
   position: absolute;
   top: 40%;
-  -ms-transform: translateY(-45%);
-  transform: translateY(-45%);
+  -ms-transform: translateY(-40%);
+  transform: translateY(-40%);
 }
 .horizontal-center {
   margin: 0;
@@ -45,15 +55,15 @@ body {
     <body>
 	<form method="POST" action="/cheat/{{username}}/">	
 		<!--Autoclicker -->
-		<div class="vertical-center" style="width: 300px;">
-			<center>  <font size="+1">Autoclicker</font></center>
+		<div class="vertical-center" style="left: 1%; width: 48%;">
+			<center>  <font size="+2">Autoclicker</font></center>
 			<p><p/>
 			<center>
-				<input type="checkbox" name="autoclicker" value="True"/>
+				<input type="checkbox" name="autoclicker" class="largerCheckbox" value="True"/>
 			<span class="checkmark"></span>
-            <input type="range" min="1" max="20" name="autoclickcps" oninput="this.nextElementSibling.value = this.value"  />
-			<output>10</output>
-			<select name ="letter" id="letter"></select>
+            <input type="range" min="1" max="20" name="autoclickcps" class="largerSlider" oninput="this.nextElementSibling.value = this.value"  />
+			<output style="font-size: x-large" >10</output>
+			<select name ="letter" style="width: 75px; height:25px;" id="letter"></select>
 
 			<p><p/>
 				</center>
@@ -61,16 +71,16 @@ body {
 		<!--End Autoclicker-->
 
 		<!--Reach -->
-		<div class="vertical-center" style="left: 18%; width: 300px;">
-			<center>  <font size="+1">Reach</font></center>
+		<div class="vertical-center" style="left: 51%; width: 48%;">
+			<center>  <font size="+2">Reach</font></center>
 			<p><p/>
-			<center><input type="checkbox" name="reach" value="True"/>
+			<center><input type="checkbox" name="reach" class="largerCheckbox" value="True"/>
 			<span class="checkmark"></span>
-            <input type="range" min="3" max="4" name="reachvalue" oninput="this.nextElementSibling.value = this.value" step=".01" />              
-			<output>3</output>
+            <input type="range" min="3" max="4" name="reachvalue"  class="largerSlider" oninput="this.nextElementSibling.value = this.value" step=".01" />              
+			<output style="font-size: x-large"  >3</output>
 				</center>
 			<p><p/>
-		</div>
+		</div>		
 		<!--End Reach -->
 		
 		<!--Header-->
@@ -84,12 +94,12 @@ body {
 					<p></p>
 					<p>Your subscription will end on: {{sub}}</p>
 					<p></p>
-					<strong><font size="+1">Configs</font></strong> 					
+					<strong><font size="+1">Configs</font></strong> 
 					<p></p>
 					<input type="text" name="cfgset" id="cfgset" placeholder="Set a config." maxlength="16"> 
 					<p></p>
-					<button onclick="location.href='/getcfg/{{username}}'" type="button">
-         Get Config</button>
+					<button onclick="location.href='/getcfg/{{username}}'" type="button">Get Config</button>
+					
 		</center>
 		</div>
 		<!--End Header-->

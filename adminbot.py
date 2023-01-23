@@ -16,22 +16,26 @@ How to setup!
 
 debug = False
 now = datetime.now()
-guildid = "GUILDID"  # Change this to your discord sever's guild id.
 token = "BOTTOKEN"  # change to your bot token
 bot = commands.Bot()
+
+
 @bot.slash_command(name="debug")
-@commands.has_role("Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
+@commands.has_role(
+    "Admin")  # This is made for buyers, so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
 async def debugmode(ctx):
     global debug
-    if debug == False:
+    if not debug:
         debug = True
         await ctx.respond("Debug Enabled. This may take a few seconds to refresh")
     else:
         debug = False
         await ctx.respond("Debug Disabled. This may take a few seconds to refresh")
 
+
 @bot.slash_command(name="createaccount")
-@commands.has_role("Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
+@commands.has_role(
+    "Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
 async def createaccount(ctx, username: str, password: str):
     f = open("logs.txt", "a")
     conn = sqlite3.connect('database.db')
@@ -43,7 +47,7 @@ async def createaccount(ctx, username: str, password: str):
     print(logins)
     for item in logins:
         for item2 in item:
-            if str(ctx.author.id) == item2:  # If there is an already an account with your discord id, it wont allow you.
+            if str(ctx.author.id) == item2:  # If there is an already an account with your discord id, it won't allow you.
                 print("already a user")
                 embed = discord.Embed(
                     title="Account Creator",
@@ -51,12 +55,13 @@ async def createaccount(ctx, username: str, password: str):
                 )
                 embed.add_field(name="Failed", value="You already have an account!")
                 await ctx.respond(embed=embed)  # Send the embed with some text
-                yesr = str("[-] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " tried to create an account and failed\n")
+                yesr = str("[-] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(
+                    ctx.author.id) + " tried to create an account and failed\n")
                 f.write(yesr)
                 f.close()
                 conn.close()
                 return
-    # if you go it this far, you dont already have an account, so we will create one!
+    # if you go it this far, you don't already have an account, so we will create one!
     embed = discord.Embed(
         title="Account Creator",
         color=discord.Colour.green(),  # Pycord provides a class with default colors you can choose from
@@ -69,14 +74,16 @@ async def createaccount(ctx, username: str, password: str):
     print(username, password)  # for debugging, remove if u want
     embed.add_field(name="Done", value="The account " + username + " has been created.")
     conn.close()
-    yesr = str("[+] | " + now.strftime("%d/%m/%Y %H:%M:%S")+ " | " + str(ctx.author.id)+ " successfully created an account\n")
+    yesr = str("[+] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " successfully created an account\n")
     f.write(yesr)
     f.close()
     await ctx.respond(embed=embed)  # Send the embed with some text
     return
 
+
 @bot.slash_command(name="setsub")
-@commands.has_role("Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
+@commands.has_role(
+    "Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
 async def setsubscription(ctx, username: str, length: int):
     start_date = now.strftime("%m/%d/%y")
     date_1 = datetime.strptime(start_date, "%m/%d/%y")
@@ -94,7 +101,7 @@ async def setsubscription(ctx, username: str, length: int):
             conn.close()
             # set sub
             conn2 = sqlite3.connect('database.db')
-            statement2 = "UPDATE cheat SET sub = '%s' WHERE username = '%s';" % (end_date,login[0]) # find all ids
+            statement2 = "UPDATE cheat SET sub = '%s' WHERE username = '%s';" % (end_date, login[0])  # find all ids
             cur2 = conn2.cursor()
             cur2.execute(statement2)
             conn2.commit()
@@ -106,6 +113,8 @@ async def setsubscription(ctx, username: str, length: int):
             )
             await ctx.respond(embed=embed)
             return
+
+
 @bot.slash_command(name="checkuserid")
 async def checkusersid(ctx, user: discord.User):
     conn = sqlite3.connect("database.db")
@@ -164,7 +173,6 @@ async def trolluser(ctx, username: str):
             description="I have swapped the users settings to True :troll:"
         )
         yesr = str("[+] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " has trolled " + username + " successfully\n")
-
         d.write(yesr)
         d.close()
         await ctx.respond(embed=embed)
@@ -197,11 +205,17 @@ async def banaccount(ctx, user: discord.User):
                 description="User has been found! Their username is: " + testdecode(item[0]) + ". Done Deleting!"
             )
             d = open("logs.txt", "a")
-            yesr = str("[*] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " has banned " + testdecode(item[0]) + " successfully\n")
+            yesr = str(
+                "[*] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " has banned " + testdecode(
+                    item[0]) + " successfully\n")
             d.write(yesr)
             d.close()
             await ctx.respond(embed=embed)
-            os.remove(testdecode(item[0]) + ".ini")  # delete their config for space reasons.
+            try:
+                os.remove(testdecode(item[0]) + ".ini")  # delete their config for space reasons.
+            except:
+                print("User doesnt have a config. Continuing")
+                pass
             return
     embed = discord.Embed(
         title="Account Deleter",
@@ -211,26 +225,27 @@ async def banaccount(ctx, user: discord.User):
     await ctx.respond(embed=embed)
     return
 
+
 @commands.has_role("Admin")
 @bot.slash_command(name="cleardata")
 async def cleardata(ctx, areyousure: bool):
     if debug == True:
         if areyousure:
-                conn = sqlite3.connect("database.db")
-                cur = conn.cursor()
-                cur.execute("DROP TABLE cheat;")  # delete your account
-                cur.execute("CREATE TABLE cheat (username text,password text,id text,sub text);")
-                import pathlib
-                path = str(pathlib.Path(__file__).parent.resolve())
-                for x in os.listdir(path):
-                    if x.endswith(".ini"):
-                        print(x)
-                        os.remove(path + r'/' + x)
-                cur.execute("INSERT INTO cheat VALUES ('%s','%s','0','9999-12-25');" % (test("admin"), test("admin")))
-                conn.commit()
-                conn.close()
-                await ctx.respond("DB HAS BEEN RESET | Login: admin:admin")
-                return
+            conn = sqlite3.connect("database.db")
+            cur = conn.cursor()
+            cur.execute("DROP TABLE cheat;")  # delete your account
+            cur.execute("CREATE TABLE cheat (username text,password text,id text,sub text);")
+            import pathlib
+            path = str(pathlib.Path(__file__).parent.resolve())
+            for x in os.listdir(path):
+                if x.endswith(".ini"):
+                    print(x)
+                    os.remove(path + r'/' + x)
+            cur.execute("INSERT INTO cheat VALUES ('%s','%s','0','9999-12-25');" % (test("admin"), test("admin")))
+            conn.commit()
+            conn.close()
+            await ctx.respond("DB HAS BEEN RESET | Login: admin:admin")
+            return
         else:
             await ctx.respond("dumbass")
     else:
@@ -241,9 +256,11 @@ async def cleardata(ctx, areyousure: bool):
 @bot.slash_command(name="logs")
 async def logs(ctx):
     await ctx.send(file=discord.File(r'logs.txt'))
+
+
 @commands.has_role("Admin")
 @bot.slash_command(name="changepassword")
-async def changepassword(ctx, newpass:str):
+async def changepassword(ctx, newpass: str):
     conn = sqlite3.connect("database.db")
     statement = "SELECT username, id FROM cheat"  # grab all usernames and ids
     cur = conn.cursor()
@@ -255,10 +272,12 @@ async def changepassword(ctx, newpass:str):
             embed = discord.Embed(
                 title="Account Checker",
                 color=discord.Colour.green(),
-                description="User has been found!"+ testdecode(item[0]) + "'s Password has been changed."  # prints their username
+                description="User has been found!" + testdecode(item[0]) + "'s Password has been changed."
+                # prints their username
             )
             conn2 = sqlite3.connect("database.db")
-            statement2 = "UPDATE cheat SET password = '%s' WHERE id = '%s'" % (test(newpass), str(ctx.author.id)) # grab all usernames and ids
+            statement2 = "UPDATE cheat SET password = '%s' WHERE id = '%s'" % (
+            test(newpass), str(ctx.author.id))  # grab all usernames and ids
             cur2 = conn2.cursor()
             cur2.execute(statement2)
             conn2.commit()

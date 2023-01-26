@@ -38,10 +38,10 @@ Q: Am I allowed to use this in my p2c (pay to cheat)
 A: Yes but with credit, and if you don't ill crack ur shit in 2 minutes you nn :D
 
 Q: How long did this take to make?
-A: Umm, i skipped doing like 3 weeks worth of classwork doing this so like plz enjoy :D
+A: Umm, I skipped doing like 5 weeks worth of classwork doing this so like plz enjoy :D
 
 Q: Is this sustainable and easy to keep up?
-A: Its alright, with the new subscriptions its pretty easy to keep up with
+A: Its alright, with the new subscriptions it's pretty easy to keep up with
 
 Q: Is this C# only?
 A: No, that's all I could give a fuck to do. Feel free to interpret my code into other coding languages how you want.
@@ -54,7 +54,7 @@ A: No, that's all I could give a fuck to do. Feel free to interpret my code into
 * Add the real feature to ur cheat ofc :D
 
 # How to run the site off a VPS
-Its just like a normal pc, start the start.py and make sure you have port 5000 forwarded. The discord bot does not require portforwarding, so just run the script, and it should work.
+It's just like a normal pc, start the start.py and make sure you have port 5000 forwarded. The discord bot does not require port-forwarding, so just run the script, and it should work.
 To portforward, please check the next section.
 
 # How to portforward off a VPS
@@ -67,15 +67,13 @@ https://bit.ly/3QB1SOC - Is a guide to do it on a Linux based VPS
 * done
 
 # How to start the discord bot:
-
 * Change Bot Token to your own
-* Change guildid to your own guild's id
-* Change the @commands.has_role("Admin") to your role's names (for people without the role, it wont respond / do anything. it shows as an error in the console but ignore it.)
+* Change the @commands.has_role("Admin") to your role's names (for people without the role, it won't respond / do anything. it shows as an error in the console but ignore it.)
 * Startup adminbot.py on a py host, vps, or even your own pc (remember you have to keep the adminbot py file in the same directory it is now. Otherwise, it may break connections with all the databases, configs, etc.)
 
 # Why? lmfao
-As a avid fan of webgui based cheats, ive always been curious on how they are developed.
-It seriously doesnt make sense since you cant really code most of the backend in straight .js otherwise it would be broken asf.
+As an avid fan of webgui based cheats, ive always been curious on how they are developed.
+It seriously doesn't make sense since you cant really code most of the backend in straight .js otherwise it would be broken asf.
 After finding flask (Basically python's website framework) I realized how I could make a webgui through this easily.
-(it wasnt easy). I also figured this was a good time to practice python,C#,html,css and even sql. In the end im super proud of this project,
+(it wasn't easy). I also figured this was a good time to practice python,C#,html,css and even sql. In the end im super proud of this project,
 It took over 2-4 weeks to make, over the many repositories based around this. I hope you enjoy my shitty code and fuck you im not coming back to minecraft.

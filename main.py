@@ -121,8 +121,8 @@ def home():
     return redirect(url_for("login"))
 
 
-def checkreality(config:str): # Check config formating
-    #True15a|None3.02
+def checkreality(config: str):  # Check config formating
+    # True15a|None3.02
     if "|" in config:
         config = config.split("|")
         if "True" in config[0]:

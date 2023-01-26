@@ -16,13 +16,12 @@ How to setup!
 
 debug = False
 now = datetime.now()
-token = "BOTTOKEN"  # change to your bot token
+token = ""  # change to your bot token
 bot = commands.Bot()
 
 
 @bot.slash_command(name="debug")
-@commands.has_role(
-    "Admin")  # This is made for buyers, so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
+@commands.has_role("Admin")  # This is made for buyers, so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
 async def debugmode(ctx):
     global debug
     if not debug:
@@ -34,8 +33,7 @@ async def debugmode(ctx):
 
 
 @bot.slash_command(name="createaccount")
-@commands.has_role(
-    "Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
+@commands.has_role("Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
 async def createaccount(ctx, username: str, password: str):
     f = open("logs.txt", "a")
     conn = sqlite3.connect('database.db')
@@ -55,8 +53,7 @@ async def createaccount(ctx, username: str, password: str):
                 )
                 embed.add_field(name="Failed", value="You already have an account!")
                 await ctx.respond(embed=embed)  # Send the embed with some text
-                yesr = str("[-] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(
-                    ctx.author.id) + " tried to create an account and failed\n")
+                yesr = str("[-] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " tried to create an account and failed\n")
                 f.write(yesr)
                 f.close()
                 conn.close()
@@ -82,8 +79,7 @@ async def createaccount(ctx, username: str, password: str):
 
 
 @bot.slash_command(name="setsub")
-@commands.has_role(
-    "Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
+@commands.has_role("Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
 async def setsubscription(ctx, username: str, length: int):
     start_date = now.strftime("%m/%d/%y")
     date_1 = datetime.strptime(start_date, "%m/%d/%y")
@@ -276,8 +272,7 @@ async def changepassword(ctx, newpass: str):
                 # prints their username
             )
             conn2 = sqlite3.connect("database.db")
-            statement2 = "UPDATE cheat SET password = '%s' WHERE id = '%s'" % (
-            test(newpass), str(ctx.author.id))  # grab all usernames and ids
+            statement2 = "UPDATE cheat SET password = '%s' WHERE id = '%s'" % (test(newpass), str(ctx.author.id))  # grab all usernames and ids
             cur2 = conn2.cursor()
             cur2.execute(statement2)
             conn2.commit()

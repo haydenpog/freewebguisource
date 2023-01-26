@@ -38,7 +38,7 @@ Q: Am I allowed to use this in my p2c (pay to cheat)
 A: Yes but with credit, and if you don't ill crack ur shit in 2 minutes you nn :D
 
 Q: How long did this take to make?
-A: Umm, I skipped doing like 5 weeks worth of classwork doing this so like plz enjoy :D
+A: Umm, I skipped doing like 10 weeks worth of classwork doing this so like plz enjoy :D
 
 Q: Is this sustainable and easy to keep up?
 A: Its alright, with the new subscriptions it's pretty easy to keep up with

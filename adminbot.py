@@ -203,7 +203,7 @@ async def banaccount(ctx, user: discord.User):
             d = open("DATA/logs.txt", "a")
             yesr = str(
                 "[*] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " has banned " + testdecode(
-                    item[0]) + " successfully\n")
+            yesr = str("[*] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " has banned " + testdecode(item[0]) + " successfully\n")
             d.write(yesr)
             d.close()
             await ctx.respond(embed=embed)

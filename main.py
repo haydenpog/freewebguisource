@@ -14,7 +14,7 @@ now = datetime.now()
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
-    conn = sqlite3.connect('database.db')  # Open db for reading
+    conn = sqlite3.connect('DATA/database.db')  # Open db for reading
     print("Opened database successfully")
 
     statement = "SELECT username, password, sub FROM cheat"  # grabs all the users and passes from the db
@@ -40,7 +40,7 @@ def login():
 @app.route('/db/<string:authuser>/<string:authpass>/<string:date>')  # api link
 def db(authuser, authpass, date):
     if request.method == 'GET':
-        conn = sqlite3.connect('database.db')  # Opens db
+        conn = sqlite3.connect('DATA/database.db')  # Opens db
         statement = "SELECT username, password, sub FROM cheat"  # grabs all available login infos
         cur = conn.cursor()
         cur.execute(statement)
@@ -72,7 +72,7 @@ def getconfig(User):
     """
 
     if request.method == 'GET':
-        f = open(User + ".ini", 'r')
+        f = open("DATA/" + User + ".ini", 'r')
         op = f.read()
         f.close()
         return op  # Returns the config files contents.
@@ -92,21 +92,21 @@ def set(User):
         print(data)
         try:
             if "True" in data:
-                c = open(User + ".ini", "r")
+                c = open("DATA/" + User + ".ini", "r")
                 cread = c.read()
                 c.close()
                 autoclickercfg = cread.split("|")[0]
-                f = open(User + ".ini", "w")
+                f = open("DATA/" + User + ".ini", "w")
                 f.write(autoclickercfg.replace("None", "True") + "|" + cread.split("|")[1])
                 print(autoclickercfg.replace("None", "True") + "|" + cread.split("|")[1])
                 f.close()
                 return "Done"
             elif "None" in data:
-                c = open(User + ".ini", "r")
+                c = open("DATA/" + User + ".ini", "r")
                 cread = c.read()
                 c.close()
                 autoclickercfg = cread.split("|")[0]
-                f = open(User + ".ini", "w")
+                f = open("DATA/" + User + ".ini", "w")
                 f.write(autoclickercfg.replace("True", "None") + "|" + cread.split("|")[1])
                 print(autoclickercfg.replace("True", "None") + "|" + cread.split("|")[1])
                 f.close()
@@ -138,7 +138,7 @@ def checkreality(config: str):  # Check config formating
 @app.route('/cheat/<string:User>/', methods=['POST'])
 def cheat(User):
     # cheat and config saving
-    conn = sqlite3.connect('database.db')  # Open db for reading
+    conn = sqlite3.connect('DATA/database.db')  # Open db for reading
     statement = "SELECT username, sub FROM cheat"  # grabs all the users and passes from the db
     cur = conn.cursor()
     cur.execute(statement)
@@ -167,11 +167,11 @@ def cheat(User):
         * Add to the linkage program so it reads.
         * Add to ur cheat ofc :D
         '''
-        f = open(User + ".ini", "w")
+        f = open("DATA/" + User + ".ini", "w")
         f.write(acon + acCPS + keybind + "|" + reach + rvalue)
         f.close()
         if checkreality(configset) == True:
-            d = open(User + ".ini", "w")
+            d = open("DATA/" + User + ".ini", "w")
             print(configset)
             d.write(configset)
             d.close()

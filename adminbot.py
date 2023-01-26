@@ -35,8 +35,8 @@ async def debugmode(ctx):
 @bot.slash_command(name="createaccount")
 @commands.has_role("Admin")  # This is made for buyers so I would maybe recommend switching this to "Buyers" or "Purchased" or whatever
 async def createaccount(ctx, username: str, password: str):
-    f = open("logs.txt", "a")
-    conn = sqlite3.connect('database.db')
+    f = open("DATA/logs.txt", "a")
+    conn = sqlite3.connect('DATA/database.db')
     print("Opened database successfully")
     statement = "SELECT id FROM cheat"  # find all ids
     cur = conn.cursor()
@@ -86,7 +86,7 @@ async def setsubscription(ctx, username: str, length: int):
     end_date = date_1 + timedelta(days=length)
     end_date = str(end_date)[:10]
     print(end_date)
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('DATA/database.db')
     statement = "SELECT username FROM cheat"  # find all ids
     cur = conn.cursor()
     cur.execute(statement)
@@ -96,7 +96,7 @@ async def setsubscription(ctx, username: str, length: int):
         if testdecode(login[0]) == username:
             conn.close()
             # set sub
-            conn2 = sqlite3.connect('database.db')
+            conn2 = sqlite3.connect('DATA/database.db')
             statement2 = "UPDATE cheat SET sub = '%s' WHERE username = '%s';" % (end_date, login[0])  # find all ids
             cur2 = conn2.cursor()
             cur2.execute(statement2)
@@ -113,7 +113,7 @@ async def setsubscription(ctx, username: str, length: int):
 
 @bot.slash_command(name="checkuserid")
 async def checkusersid(ctx, user: discord.User):
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("DATA/database.db")
     statement = "SELECT username, id FROM cheat"  # grab all usernames and ids
     cur = conn.cursor()
     cur.execute(statement)
@@ -141,12 +141,12 @@ async def checkusersid(ctx, user: discord.User):
 @commands.has_role("Admin")
 @bot.slash_command(name="trolluser")
 async def trolluser(ctx, username: str):
-    c = open(username + ".ini", "r")  # open their config file
-    d = open("logs.txt", "a")
+    c = open("DATA/" + username + ".ini", "r")  # open their config file
+    d = open("DATA/logs.txt", "a")
     cread = c.read()
     c.close()
     if 'True' in cread:  # if anything is true in it, it will turn it off
-        f = open(username + ".ini", 'w')
+        f = open("DATA/" + username + ".ini", 'w')
         f.write(cread.replace("True", "None"))
         f.close()
         embed = discord.Embed(
@@ -160,7 +160,7 @@ async def trolluser(ctx, username: str):
         await ctx.respond(embed=embed)
         return
     else:
-        f = open(username + ".ini", 'w')
+        f = open("DATA/" + username + ".ini", 'w')
         f.write(cread.replace("None", "True"))  # if anything is false it will turn it true
         f.close()
         embed = discord.Embed(
@@ -179,7 +179,7 @@ async def trolluser(ctx, username: str):
 @bot.slash_command(name="banaccount")
 async def banaccount(ctx, user: discord.User):
     # THIS TOOK 4 HOURS CAUSE IM DUMB
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("DATA/database.db")
     statement = "SELECT username, id FROM cheat"  # grab all usernames and ids
     cur = conn.cursor()
     cur.execute(statement)
@@ -189,7 +189,7 @@ async def banaccount(ctx, user: discord.User):
     # For delete
     for item in logins:
         if str(user.id) in item:  # if your id is in  the db
-            conn = sqlite3.connect("database.db")
+            conn = sqlite3.connect("DATA/database.db")
             cur = conn.cursor()
             cur.execute("DELETE FROM cheat WHERE id='" + str(user.id) + "';")  # delete your account
             conn.commit()  # This took me 4 hours to realize that I forgot this singular line. This just saves the db.
@@ -200,7 +200,7 @@ async def banaccount(ctx, user: discord.User):
                 color=discord.Colour.green(),
                 description="User has been found! Their username is: " + testdecode(item[0]) + ". Done Deleting!"
             )
-            d = open("logs.txt", "a")
+            d = open("DATA/logs.txt", "a")
             yesr = str(
                 "[*] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " has banned " + testdecode(
                     item[0]) + " successfully\n")
@@ -227,7 +227,7 @@ async def banaccount(ctx, user: discord.User):
 async def cleardata(ctx, areyousure: bool):
     if debug == True:
         if areyousure:
-            conn = sqlite3.connect("database.db")
+            conn = sqlite3.connect("DATA/database.db")
             cur = conn.cursor()
             cur.execute("DROP TABLE cheat;")  # delete your account
             cur.execute("CREATE TABLE cheat (username text,password text,id text,sub text);")
@@ -251,13 +251,13 @@ async def cleardata(ctx, areyousure: bool):
 @commands.has_role("Admin")
 @bot.slash_command(name="logs")
 async def logs(ctx):
-    await ctx.send(file=discord.File(r'logs.txt'))
+    await ctx.send(file=discord.File(r'DATA/logs.txt'))
 
 
 @commands.has_role("Admin")
 @bot.slash_command(name="changepassword")
 async def changepassword(ctx, newpass: str):
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("DATA/database.db")
     statement = "SELECT username, id FROM cheat"  # grab all usernames and ids
     cur = conn.cursor()
     cur.execute(statement)
@@ -271,7 +271,7 @@ async def changepassword(ctx, newpass: str):
                 description="User has been found!" + testdecode(item[0]) + "'s Password has been changed."
                 # prints their username
             )
-            conn2 = sqlite3.connect("database.db")
+            conn2 = sqlite3.connect("DATA/database.db")
             statement2 = "UPDATE cheat SET password = '%s' WHERE id = '%s'" % (test(newpass), str(ctx.author.id))  # grab all usernames and ids
             cur2 = conn2.cursor()
             cur2.execute(statement2)

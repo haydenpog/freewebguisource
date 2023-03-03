@@ -61,6 +61,12 @@ To portforward, please check the next section.
 https://tryrdp.com/blog/port-forwarding-on-windows-vps/ - Is a guide to do it on a Windows based VPS
 https://bit.ly/3QB1SOC - Is a guide to do it on a Linux based VPS
 
+# How do I test this before downloading?
+Make a fork and run a github workspace, than pip install both py-cord and flask
+after doing that, create 2 configs for hosting them in the debug tab. After that
+portforward port 5000. And start both programs, it should run on a website that you could find in the
+portforwarding tab. The bot should also be up at this time.
+
 # How to localhost the bot:
 * Run start.py
 * Run adminbot.py

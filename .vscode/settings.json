@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "DB",
+            "database": "${workspaceFolder:freewebguisource}/DATA/database.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

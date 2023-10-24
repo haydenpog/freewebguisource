@@ -201,8 +201,6 @@ async def banaccount(ctx, user: discord.User):
                 description="User has been found! Their username is: " + testdecode(item[0]) + ". Done Deleting!"
             )
             d = open("DATA/logs.txt", "a")
-            yesr = str(
-                "[*] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " has banned " + testdecode(
             yesr = str("[*] | " + now.strftime("%d/%m/%Y %H:%M:%S") + " | " + str(ctx.author.id) + " has banned " + testdecode(item[0]) + " successfully\n")
             d.write(yesr)
             d.close()

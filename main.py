@@ -2,7 +2,6 @@ import sqlite3
 import time
 from datetime import datetime
 from flask import Flask, render_template, redirect, url_for, request
-
 from pCrypt import testdecode
 
 app = Flask(__name__)
@@ -26,7 +25,6 @@ def login():
         for item in logins:  # set every login to a seperate list
             if request.form['username'] != testdecode(item[0]) or request.form['password'] != testdecode(item[1]):  # Check if password and username work
                 error = 'Invalid Credentials. Please try again.'  # Responds with an error
-                pass
             if request.form['username'] == testdecode(item[0]) and request.form['password'] == testdecode(item[1]):  # check if login info correct
                 newdate2 = time.strptime(item[2], "%Y-%m-%d")
                 newdate1 = time.strptime(now.strftime("%Y-%m-%d"), "%Y-%m-%d")

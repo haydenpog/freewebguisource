@@ -16,6 +16,7 @@ admin                       admin
 '''
 
 
+
 def test(text):
     ran = ''.join(random.choices(string.ascii_uppercase + string.digits, k=2))
     ran = [*ran]
@@ -25,11 +26,13 @@ def test(text):
     else:
         text = text + ran[0] + ran[1]
     text = base64.b64encode(text.encode("ASCII")).decode("ASCII")
+    text = base64.a85encode(text.encode("ASCII")).decode("ASCII")
     print(text)
     return (text)
 
 
 def testdecode(text):
+    text = base64.a85decode(text.encode("ASCII")).decode("ASCII")
     text = base64.b64decode(text.encode("ASCII")).decode("ASCII")
     text = text.replace(text[-1], text[-2])
     text = text.replace(text[-2] + text[-1], "")
@@ -69,5 +72,5 @@ def pdecode(text):
 '''
 
 if __name__ == "__main__":
-    print(test("pCrypt") + " == '" + test("pCrypt") + " == " + testdecode("cENyeXB0QlQ="))
+    print(test("admin") + " == '" + test("admin") + " == " + testdecode("@ms.<AQV8Q<,684"))
     pass

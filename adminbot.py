@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 import os
+import sqlite3
 import discord
 from discord.ext import commands
 from pCrypt import test, testdecode
-import sqlite3
 
 '''
 How to setup!

@@ -22,7 +22,7 @@ def login():
     logins = cur.fetchall()  # puts them in a list
     conn.close()  # closes the connection, so it doesn't kill the host / ur pc
     if request.method == 'POST':  # checks if u submit ur info
-        for item in logins:  # set every login to a seperate list
+        for item in logins:  # set every login to a seperate list (prevents sql injections)
             if request.form['username'] != testdecode(item[0]) or request.form['password'] != testdecode(item[1]):  # Check if password and username work
                 error = 'Invalid Credentials. Please try again.'  # Responds with an error
             if request.form['username'] == testdecode(item[0]) and request.form['password'] == testdecode(item[1]):  # check if login info correct
@@ -45,6 +45,7 @@ def db(authuser, authpass, date):
         logins = cur.fetchall()  # sets login info to a a list
         print(logins)  # print for debugging, you can remove if u want (only u can see this)
         conn.close()  # kills pc without
+        #These checks here dont interact with our real db, and only a copy of it in the form of a list, this prevents sql injections.
         for item in logins:
             print(item)  # print for debugging, you can remove if u want (only u can see this)
             print(testdecode(item[0]),testdecode(item[1]))  # print for debugging, you can remove if u want (only u can see this)
@@ -68,7 +69,17 @@ def getconfig(User):
     :param User:
     :return file contents:
     """
-
+    conn = sqlite3.connect('DATA/database.db')  # Open db for reading
+    statement = "SELECT username FROM cheat"  # grabs all the users and passes from the db
+    cur = conn.cursor()
+    cur.execute(statement)
+    logins = cur.fetchall()  # puts them in a list
+    conn.close()
+    for username in logins:
+        if User in testdecode(username): # no sneaky directory traversal for you
+            pass
+        else:
+            return "Error"
     if request.method == 'GET':
         f = open("DATA/" + User + ".ini", 'r')
         op = f.read()
@@ -88,6 +99,17 @@ def set(User):
         print(data)
         data = data.decode("ASCII")
         print(data)
+        conn = sqlite3.connect('DATA/database.db')  # Open db for reading
+        statement = "SELECT username FROM cheat"  # grabs all the users and passes from the db
+        cur = conn.cursor()
+        cur.execute(statement)
+        logins = cur.fetchall()  # puts them in a list
+        conn.close()
+        for username in logins:
+            if User in testdecode(username): # no sneaky directory traversal for you
+                pass
+            else:
+                return "Error"
         try:
             if "True" in data:
                 c = open("DATA/" + User + ".ini", "r")
@@ -119,18 +141,20 @@ def home():
     return redirect(url_for("login"))
 
 
-def checkreality(config: str):  # Check config formating
+def checkreality(config: str):  # Check config formating so we prevent injections.
     # True15a|None3.02
-    if "|" in config:
-        config = config.split("|")
-        if "True" in config[0]:
-            return True
-        elif "None" in config[0]:
-            return True
+    if(config != "NoneNoneNone|NoneNone"): # Check for empty config (happens sometimes because of flask)
+        if(len(config) > 16): # make sure you aint inputting anything longer than the config format
+            return False
+        if "|" in config: # check for out config format
+            config = config.split("|")
+            if "True" in config[0] or "None" in config[0] or "True" in config[1] or "None" in config[1]: # Another check to see its a real config
+                return True
+            else:
+                return False
         else:
             return False
-    else:
-        return False
+    return False
 
 
 @app.route('/cheat/<string:User>/', methods=['POST'])
@@ -143,7 +167,7 @@ def cheat(User):
     logins = cur.fetchall()  # puts them in a list
     conn.close()
     for login in logins:
-        if User in testdecode(login[0]):
+        if User in testdecode(login[0]): # we dont read user input from the db, we read it from a list grabbed from the db (prevent sql injections)
             sub = login[1]
     if request.method == 'POST':
         # autoclicker
@@ -158,21 +182,26 @@ def cheat(User):
         configset = str(request.form.get("cfgset"))
 
         '''
-        To add new features:
+        How you can add new features:
         * Add new box with things in the html
         * Add new form.get in here
         * Add to the config below V
         * Add to the linkage program so it reads.
         * Add to ur cheat ofc :D
         '''
-        f = open("DATA/" + User + ".ini", "w")
-        f.write(acon + acCPS + keybind + "|" + reach + rvalue)
-        f.close()
-        if checkreality(configset) == True:
+        configtw = str(acon + acCPS + keybind + "|" + reach + rvalue)
+
+        if(checkreality(configtw)): # just to check if your linkage sent you an invalid cfg or to prevent injections.
+            f = open("DATA/" + User + ".ini", "w")
+            f.write(configtw)
+            f.close()
+        else:
+            print("Fake Config Or Empty Config")    
+        if checkreality(configset) == True: # When we manually input our config, gotta make sure you aint injecting :D
             d = open("DATA/" + User + ".ini", "w")
             print(configset)
             d.write(configset)
             d.close()
         else:
-            print("false")
+            print("Fake Config Or Empty Config")
         return render_template('home.html', username=User, sub=sub)

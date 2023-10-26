@@ -79,7 +79,7 @@ def getconfig(User):
         if User in testdecode(username): # no sneaky directory traversal for you
             pass
         else:
-            return "Error"
+            return "Error: Invalid User"
     if request.method == 'GET':
         f = open("DATA/" + User + ".ini", 'r')
         op = f.read()
@@ -109,7 +109,7 @@ def set(User):
             if User in testdecode(username): # no sneaky directory traversal for you
                 pass
             else:
-                return "Error"
+                return "Error: Invalid User"
         try:
             if "True" in data:
                 c = open("DATA/" + User + ".ini", "r")
@@ -131,8 +131,8 @@ def set(User):
                 print(autoclickercfg.replace("True", "None") + "|" + cread.split("|")[1])
                 f.close()
                 return "Done"
-        except:
-            print("error, crashed.")
+        except Exception as e:
+            return "Error: " + str(e)
 
 
 @app.route("/")

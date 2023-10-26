@@ -37,6 +37,11 @@ namespace Linkage
         {
             System.Net.WebClient wc = new System.Net.WebClient();
             string webData = wc.DownloadString(yoursite + "getcfg/" + username);
+            if(webData.Contains("Error"))
+            {
+                MessageBox.Show(webData);
+                Application.Exit();
+            }
             char yes = char.Parse("|");
             string[] features = webData.Split(yes);
             // AUTOCLICK
@@ -93,6 +98,11 @@ namespace Linkage
         {
             System.Net.WebClient wc = new System.Net.WebClient();
             string webData = wc.DownloadString(yoursite + "getcfg/" + username);
+            if(webData.Contains("Error"))
+            {
+                MessageBox.Show(webData);
+                Application.Exit();
+            }
             char yes = char.Parse("|");
             string[] features = webData.Split(yes);
             // AUTOCLICK
@@ -143,6 +153,11 @@ namespace Linkage
         {
             System.Net.WebClient wc = new System.Net.WebClient();
             string webData = wc.DownloadString(yoursite + "getcfg/" + username);
+            if(webData.Contains("Error"))
+            {
+                MessageBox.Show(webData);
+                Application.Exit();
+            }
             char yes = char.Parse("|");
             string[] features = webData.Split(yes);
             if (features[0].Contains("True"))
@@ -177,17 +192,34 @@ namespace Linkage
                 
                 System.Net.WebClient wc = new System.Net.WebClient();
                 string webData = wc.DownloadString(yoursite + "getcfg/" + username);
+                if(webData.Contains("Error"))
+                {
+                    MessageBox.Show(webData);
+                    Application.Exit();
+                }
                 char yes = char.Parse("|");
                 string[] features = webData.Split(yes);
                 if (features[0].Contains("True"))
                 {
-                    wc.UploadData(yoursite + "set/" + username, Encoding.ASCII.GetBytes("None"));
+                    byte[] response = wc.UploadData(yoursite + "set/" + username, Encoding.ASCII.GetBytes("None"));
+                    string responseString = Encoding.ASCII.GetString(response);
+                    if(responseString.Contains("Error"))
+                    {
+                        MessageBox.Show(responseString);
+                        Application.Exit();
+                    }   
                     // only issue with this aproach is that people can edit other peoples configs if they know their name. Most people who dont know this source wont figure this out but its still good 4 u to know.
 
                 }
                 else if (features[0].Contains("None"))
                 {
-                    wc.UploadData(yoursite + "set/" + username, Encoding.ASCII.GetBytes("True"));
+                    byte[] response = wc.UploadData(yoursite + "set/" + username, Encoding.ASCII.GetBytes("True"));
+                    string responseString = Encoding.ASCII.GetString(response);
+                    if(responseString.Contains("Error"))
+                    {
+                        MessageBox.Show(responseString);
+                        Application.Exit();
+                    }   
                     // only issue with this aproach is that people can edit other peoples configs if they know their name. Most people who dont know this source wont figure this out but its still good 4 u to know.
 
                 }

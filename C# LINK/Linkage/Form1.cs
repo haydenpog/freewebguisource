@@ -46,6 +46,11 @@ namespace Linkage
                 this.Hide();
 
             }
+            else
+            {
+                 MessageBox.Show("Wrong Username or Password","Wrong Username or Password");
+                 Application.Exit();
+            }
         }
 
         public static byte[] Base32ToBytes(string base32)

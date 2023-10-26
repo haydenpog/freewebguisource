@@ -7,5 +7,6 @@
             "database": "${workspaceFolder:freewebguisource}/DATA/database.db"
         }
     ],
-    "sqltools.useNodeRuntime": true
+    "sqltools.useNodeRuntime": true,
+    "dotnet.preferCSharpExtension": true
 }

@@ -217,5 +217,6 @@ def cheat(User):
             d.write(configset)
             d.close()
         else:
-            print("Fake Config Or Empty Config")
+            if(configset != ""):
+                print("Fake Config (Misstype or Injection Attempt)")
         return render_template('home.html', username=User, sub=sub)

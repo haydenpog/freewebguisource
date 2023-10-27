@@ -179,16 +179,9 @@ def cheat(User):
     cur.execute(statement)
     logins = cur.fetchall()  # puts them in a list
     conn.close()
-    loginlist = []
-    for username in logins:
-        for item in username:
-            loginlist.append(item)
-    for user in loginlist:
-        loginlist[loginlist.index(user)] = testdecode(user)
-    if str(User) in loginlist: # no sneaky directory traversal for you
-        pass
-    else:
-        return("Error: Invalid User")    
+    for login in logins:
+        if User in testdecode(login[0]): # we dont read user input from the db, we read it from a list grabbed from the db (prevent sql injections)
+            sub = login[1]
     if request.method == 'POST':
         # autoclicker
         acCPS = str(request.form.get("autoclickcps"))
@@ -216,7 +209,8 @@ def cheat(User):
             f.write(configtw)
             f.close()
         else:
-            print("Fake Config Or Empty Config")    
+            print("Fake Config Or Empty Config") 
+
         if checkreality(configset) == True: # When we manually input our config, gotta make sure you aint injecting :D
             d = open("DATA/" + User + ".ini", "w")
             print(configset)

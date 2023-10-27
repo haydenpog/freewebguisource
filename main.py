@@ -75,17 +75,23 @@ def getconfig(User):
     cur.execute(statement)
     logins = cur.fetchall()  # puts them in a list
     conn.close()
+    loginlist = []
     for username in logins:
-        if User in testdecode(username): # no sneaky directory traversal for you
-            pass
-        else:
-            return "Error: Invalid User"
+        for item in username:
+            loginlist.append(item)
+    for user in loginlist:
+        loginlist[loginlist.index(user)] = testdecode(user)
+    if str(User) in loginlist: # no sneaky directory traversal for you
+        pass
+    else:
+        return("Error: Invalid User")    
+    
     if request.method == 'GET':
         f = open("DATA/" + User + ".ini", 'r')
         op = f.read()
         f.close()
         return op  # Returns the config files contents.
-
+    return("Error: Invalid Method")
 
 @app.route('/set/<string:User>', methods=['POST'])
 def set(User):
@@ -105,11 +111,17 @@ def set(User):
         cur.execute(statement)
         logins = cur.fetchall()  # puts them in a list
         conn.close()
+        loginlist = []
         for username in logins:
-            if User in testdecode(username): # no sneaky directory traversal for you
-                pass
-            else:
-                return "Error: Invalid User"
+            for item in username:
+                loginlist.append(item)
+        for user in loginlist:
+            loginlist[loginlist.index(user)] = testdecode(user)
+        if str(User) in loginlist: # no sneaky directory traversal for you
+            pass
+        else:
+            return("Error: Invalid User")    
+
         try:
             if "True" in data:
                 c = open("DATA/" + User + ".ini", "r")
@@ -133,6 +145,7 @@ def set(User):
                 return "Done"
         except Exception as e:
             return "Error: " + str(e)
+    
 
 
 @app.route("/")
@@ -166,9 +179,16 @@ def cheat(User):
     cur.execute(statement)
     logins = cur.fetchall()  # puts them in a list
     conn.close()
-    for login in logins:
-        if User in testdecode(login[0]): # we dont read user input from the db, we read it from a list grabbed from the db (prevent sql injections)
-            sub = login[1]
+    loginlist = []
+    for username in logins:
+        for item in username:
+            loginlist.append(item)
+    for user in loginlist:
+        loginlist[loginlist.index(user)] = testdecode(user)
+    if str(User) in loginlist: # no sneaky directory traversal for you
+        pass
+    else:
+        return("Error: Invalid User")    
     if request.method == 'POST':
         # autoclicker
         acCPS = str(request.form.get("autoclickcps"))

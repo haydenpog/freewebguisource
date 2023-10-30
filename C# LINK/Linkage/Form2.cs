@@ -24,7 +24,7 @@ namespace Linkage
             InitializeComponent();
             username = s;
         }
-        string yoursite = "http://127.0.0.1:5000/";
+        string yoursite = "https://127.0.0.1:5000/";
         bool autotog = false;
         int cps = 0;
         int leftbind = 0;
@@ -103,6 +103,7 @@ namespace Linkage
                 MessageBox.Show(webData);
                 Application.Exit();
             }
+            Console.Out.WriteLine(yoursite + "getcfg/" + username);
             char yes = char.Parse("|");
             string[] features = webData.Split(yes);
             // AUTOCLICK
